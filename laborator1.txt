@@ -1,0 +1,192 @@
+PROBLEMA 1
+
+
+﻿/*
+Batinas Claudia gr 2112 - Definiţi funcţii macro MAXi (i=2,3)care determină şi afişează maximul dintre 2 si alta, dintre 3 numere 
+introduse de la tastatură. Folositi variante diferite (operator conditional, instructiuni if, etc.)
+
+*/
+
+
+#include <iostream>
+using namespace std;
+
+#define MAX1(a,b) ((a)>(b)?(a):(b))
+#define MAX2(c,d,e) ((c)>(d) && (c)>(e)?(c):(e) || (c)>(d) && (d)>(e)?(c):(e) || (c)>(d) && (e)>(d)?(c):(d) || (d)>(c) && (d)>(e)?(d):(e) || (d)>(c) && (e)>(d)?(d):(c))
+
+int main()
+{
+        int n;
+        cout << "\nIntroduceti n: ";
+        cin >> n;
+        int a, b, c, d, e;
+        if (n == 2)
+        {
+                cin >> a >> b;
+                cout << "\nMaximul dintre 2 valori este: " << MAX1(a, b);
+        }
+        
+        if (n == 3)
+        {
+                cin >> c >> d >> e;
+                cout << "\nMaximul dintre 3 valori este: " << MAX2(c, d, e);
+        }
+        return 0;
+}
+
+
+
+PROBLEMA 2
+
+
+
+
+﻿/*Batinas Claudia gr 2112 - Definiţi o funcţie inline min( ) care determină şi afişează minimul dintre 2 si alta dintre 3 numere întregi 
+introduse de la tastatură. Considerati supraincarcarea functiilor*/
+
+
+#include<iostream>
+
+using namespace std;
+inline int min(int a, int b);
+inline int min1(int a, int b, int c);
+int main()
+{
+        int a, b,c, minim, minim1;
+        cout<<"Scrieti primul numar:";
+        cin>>a;
+        cout<<"\nScrieti a doua valoare:";
+        cin>>b;
+        minim = min(a, b);
+        cout << "\n Minimul: "<< minim;
+
+        cout<<"\nScrieti a treia valoare:";
+        cin >> c;
+
+        minim1 = min1(a, b, c);
+
+        cout<<"\n Valoarea minima: ", minim1;
+}
+inline int min(int a, int b)
+{
+        if (a < b) return a;
+
+        return b;
+}
+inline int min1(int a, int b, int c)
+{
+        if (a < b && a < c) return a;
+
+        else if (b < a && b < c) return b;
+
+        return c;
+}
+
+
+
+PROBLEMA 3
+
+/*Batinas Claudia gr 2112 - Considerati o structura de date Student, care contine un camp de tip sir de caractere (maxim 30) pentru
+nume_prenume si un alt camp nota de tip int.Definiti un obiect de tip Student la care datele vor fi citite de la
+tastatura.Validati folosind asertiuni ca nume_prenume sa aiba cel putin 5 caractere iar nota sa fie >= 5 si <= 10.
+Afisati campurile obiectului in caz de introducere corecta.
+*/
+
+
+#include <assert.h>
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+#define MAX 30
+struct Student
+{
+    char nume_prenume[30];
+    int nota;
+};
+
+int main() {
+
+    Student p[MAX];
+
+    cout << "\nIntroduceti numele si prenumele: ";
+    cin>> p->nume_prenume;
+    cout<<"Nota este:  "<<endl;
+    cin >> p->nota;
+
+    assert(strlen(p->nume_prenume) > 5);
+    cout<<"\nNumele,prenume: "<< p->nume_prenume<<endl;
+
+    assert(p->nota >= 5 && p->nota <= 10);
+    cout<<"Nota este %d"<<p->nota<<endl;
+    return 0;
+}
+
+
+PROBLEMA 5
+
+
+
+
+﻿/*Batinas Claudia gr 2112 - Folosind supraîncărcarea funcţiilor definiţi trei funcţii cu acelaşi nume dar cu tipuri diferite de parametri (int, 
+int *, int &) care returnează radicalul unei valori intregi. Analizaţi cazul transmiterii parametrilor prin valoare 
+şi prin referinţă.*/
+
+
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+int radical(int n);
+int radical(int* n);
+
+
+int main()
+{
+    int n;
+    cout<<"Introduceti valoarea n:";
+    cin>> n;
+
+
+    cout<<"\nPrimul radical este "<< (int)radical(n);
+    cout<<"\nAl doilea radical este "<<(int*) radical(n);
+    
+}
+
+int radical(int n) {
+
+    return (sqrt(n));
+}
+int radical(int* n) {
+
+    return (sqrt(*n));
+}
+
+PROBLEMA 7
+
+﻿/*Claudia Batinas gr 2112 - Scrieţi un program care face o codare simplă prin adaugarea la codul ASCII al caracterului
+o valoare n = 3, folosind macro funcții.Exemplu: ‘a’ devine în urma codării ‘d’.
+*/
+
+#include<iostream>
+using namespace std;
+
+#define codare(x) x+3
+
+int main()
+{
+        char x;
+
+        cout<<"\nIntroduceti caracterul : ";
+        cin>>x;
+
+        cout<<"\nDupa codare caract este: "<<(char)(codare(x));
+        return 0;
+
+}
+
+
+
+}

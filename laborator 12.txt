@@ -1,0 +1,228 @@
+
+/*Batinas Claudia gr 2112 - Scrieţi un program C++ în care afişaţi diferite valori în zecimal, octal şi hexazecimal.Afişaţi
+valorile aliniate la dreapta, respectiv la stânga într - un câmp de afişare cu dimensiunea 15.
+Utilizaţi manipulatorul setfill() pentru stabilirea caracterului de umplere şi metodele width()
+şi precision() pentru stabilirea dimensiunii câmpului de afişare şi a preciziei.
+*/
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+int main()
+{
+        // afisarea valorilor folosind poziţionarile implicite
+        cout << 34.77 << " " << 67;
+        cout.setf(ios::right);
+        cout.width(40);
+        cout.precision(6);
+        cout << setfill('*') << 11.07 << endl;
+        // schimbam formatul
+        cout.unsetf(ios::dec);
+
+
+        cout.setf(ios_base::oct);
+        cout << 31 << endl;
+
+        cout.setf(ios_base::hex);
+        cout << 2002 << endl;
+        cout.setf(ios::left);
+        cout.unsetf(ios::hex);
+        //aliniere stanga
+        cout.unsetf(ios::right);
+        cout.width(25);
+        cout.fill('*');
+        cout.setf(ios::left);
+        cout << "Aliniere stanga" << '\n';
+        cout.unsetf(ios::left);
+        
+        return 0;
+}
+
+
+
+
+
+
+
+
+
+
+//Batinas Claudia gr 2112 -  Scrieti o aplicatie C++ in care se citesc de la tastatura date de diferite tipuri,
+//urmand a fi afisate pe ecran utilizand manipulatorii standard.
+
+#include <iostream>
+#include <iomanip>
+
+#define MAX 20
+using namespace std;
+const int dim = 30;
+
+int main()
+{
+        int numar, nr;
+        cout << "Introduceti numarul: " << endl;
+        cin >> numar;
+        cout.unsetf(ios::dec);
+        cout.setf(ios_base::hex);
+        cout << "Numarul in baza hexazecimala este: " << numar << endl;
+        cout.unsetf(ios::hex);
+        cout.setf(ios_base::oct);
+
+        cout << "Numarul in baza octazecimala este: " << numar << endl;
+        cout.unsetf(ios::oct);
+        nr = numar / 3;
+        cout.setf(ios::hex);
+        cout << "Noul numar este: " << fixed << setprecision(2) << nr << endl;
+        cout.unsetf(ios::hex);
+        cout.setf(ios::oct);
+        cout << "Noul numar in baza hexazecimala este: " << nr << endl;
+        cout.unsetf(ios::hex);
+        
+         cout<<456.12375312<< fixed << setprecision(3); //am ramas doar cu 3 cifre dupa virgula
+
+         int numar2;
+         cout << "\nIntroduceti alt numar: ";
+         cin >> numar2;
+        cout << setbase(2) << right << setw(15) << setfill('*') << showpos; //showpos-determină afișarea semnului înaintea valorilor numerice pozitive
+        cout << numar2 << endl;
+
+        //setw (val): Este folosit pentru a seta lățimea câmpului în operațiunile de ieșire.
+
+        bool numar_b;
+        cin.setf(ios::boolalpha);
+        cout << "\nDati valoarea numarului: ";
+        cin >> numar_b;
+        cout << "\nValoarea intreaga a lui numar_b este: " << numar_b << endl;
+        return 0;
+}
+
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Considerati achizitia de date cu valori reale de la un dispozitiv electronic (10 date). Afisati
+folosind un mesaj adecvat datele primite considerand un format minimal (partea intreaga).
+Determinati media acestor valori (partea intreaga), iar daca depaseste un prag stabilit anterior
+(definit sau citit), afisati aceste date in format detaliat considerand ca avem date de tip real, cu
+o precizie de 3 digiti la partea fractionara
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <iomanip> //pentru a putea folosi fixed,setprecision
+#define MAX 10
+
+using namespace std;
+
+int main()
+
+{
+        double nr[MAX],med=0.0f,s=0.0f,val_prag=0.0f;
+        int i;
+        cout << "\nDati cele 10 valori: ";
+        for(i=0;i<10;i++)
+        {
+                cout << "nr[" << i + 1 << "]= ";
+
+                cin >> nr[i]; //am citit cele 10 valori
+        }
+        cout << "\nPartea reala a valorilor este: ";
+        for (i = 0; i < 10; i++)
+                cout << "\nnr[" << i + 1 << "]= " << (int)nr[i] << endl; //am afisat partea reala a valorilor
+
+        for (i = 0; i < 10; i++)
+                s = s + (int)nr[i]; //am calculat suma valorilor
+        med = s / 10; //am calculat media valorilor
+
+        cout << "\nIntroduceti valoarea de prag: ";
+
+        cin >> val_prag; //am citit valorile de prag
+        if (med > val_prag) //conditia de afisare
+        {
+                cout << "\nValorile citite in format detaliat sunt: ";
+                for (i = 0; i < 10; i++)
+                {
+                        cout << "\nnr[" << i + 1 << "]= " <<  nr[i] << endl;
+                        cout << "\n\tpartea intreaga: " << (int)nr[i]; //am afisat partea intreaga
+                        cout << "\n\t\tpartea fractionara: " <<fixed<<setprecision(3)<< nr[i] - (int)nr[i]; //am afisat partea fractionara cu 3 zecimale
+                }
+        }
+        else
+        {
+                cout << "\nValoarea medie nu a depasit valoarea de prag!";
+                return 1;
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Definiti o clasa numita MiscareAccelerata care contine atributele private dc (distanta curenta,
+vc (viteza curenta) si a (acceleratia), atributele dc, vc si a sunt initializate in constructor iar
+valoarea lor este cea data de d0 si v0, si a0 ca si parametri. In clasa sunt supraincarcati
+operatorii de extractie si de inserție pentru a se putea initializa si afisa caracteristicile unei
+instante. Implementati metoda determinaMiscarea care re-calculeaza variabilele dc si vc, pe
+baza unui numar de secunde primit ca si parametru si avand in vedere legea miscarii rectilinii
+uniform accelerate cu acceleratie a0.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class MiscareAccelerata
+{
+private:
+        double dc;
+        double vc; //atribute private
+        double a;
+public:
+        MiscareAccelerata(double d0,double v0,double a0) //constructor cu 3 parametri
+        {
+                dc = d0;
+                vc = v0;
+                a = a0;
+        }
+        friend ostream& operator<<(ostream&, MiscareAccelerata ob);
+        friend istream& operator>>(istream&, MiscareAccelerata& ob);
+
+        void determinaMiscarea(int sec)
+        {
+                vc = a * sec;
+                dc = dc + vc * sec + (a * sec * sec / 2);
+
+                cout << "\nViteza modificata este: "<<vc;
+                cout << "\nDistanta modificata este: " << dc;
+
+        }
+        
+};
+
+ostream& operator<< (ostream& stream, MiscareAccelerata obiect) { //supraincarcarea operatorilor de extractie
+        stream << obiect.dc << " " << obiect.vc <<obiect.a<< '\n';
+        return stream;
+}
+
+istream& operator>> (istream& stream, MiscareAccelerata& obiect) { //supraincarcarea operatorilor de insertie
+        cout << "Introduceti coordonatele: ";
+        stream >> obiect.dc >> obiect.vc >> obiect.a;
+        return stream;
+}
+
+int main()
+{
+        MiscareAccelerata ob(2, 4, 5);
+        ob.determinaMiscarea(2);
+        return 0;
+
+}

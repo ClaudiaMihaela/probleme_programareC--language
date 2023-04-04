@@ -1,0 +1,112 @@
+
+/*
+Batinas Claudia gr 2112 - Scrieţi un program care utilizează metoda write( ) pentru a scrie într-un fişier şiruri de
+caractere. Afişaţi apoi conţinutul fişierului folosind metoda get( ). Numele fişierului se va citi
+de la tastatură.
+*/
+
+#include <iostream> // std::cin, std::cout
+#include <fstream> // std::ifstream
+using namespace std;
+#include <stdlib.h>
+const int dim1 = 256;
+const int dim2 = 25;
+int main() {
+        
+        char string[dim1];
+        fstream io;
+        cout << "\nDati numele fisierului: \n";
+        io.open("fisier", std::ios::out);
+        if (!io) {
+                cout << "Nu poate deschide fisierul de scriere\n";
+                exit(1);
+        }
+        int nr;
+        char sir[dim1];
+        
+
+        io.write("Sir de test de verificat", dim2);
+        io << "\njhgfs jdgahjs";
+        io.close();
+
+        cout << "\nDati numele fisierului: ";
+        cin.get(string, dim1); // get c-string
+        ifstream is(string); // open file
+        if (!is) {
+                cout << "Nu poate deschide fisierul de citire\n";
+                exit(1);
+        }
+
+
+        
+                io.write(sir, dim1);
+          cout << "\nSirurile de caractere din fisier sunt: ";
+        while (is) // loop while extraction from file is possible
+        {
+                char caracter = is.get(); // get character from file
+                if (is.good())
+                        cout << caracter;
+        }
+        is.close(); // close file
+        return 0;
+}
+
+
+
+
+
+
+
+
+/*
+Batinas Claudia - Scrieţi o aplicaţie C++ care citeşte un fişier utilizând metoda read( ). Verificaţi starea
+sistemului după fiecare operaţie de citire. Numele fişierului se va citi din linia de comandă.
+Afişaţi pe ecran conţinutul fişierului.
+*/
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+const int dim = 11;
+int main()
+{
+        char sir[dim] = " ";
+        ifstream in;
+        in.open("fisier.txt");
+        if (!in) {
+                cout << "Nu poate deschide fisierul de intrare\n"; //validare
+                exit(1);
+        }
+        //o modalitate de citire din fisier
+        /*while (1) {  {
+                in.read(sir, dim - 1);
+                if (in.eof())break;
+                cout << sir;
+
+
+
+        }
+        */
+        //o alta modalitate de citire din fisier
+
+        /*while (in.good( )) 
+         
+        {
+                char c = in.get(); 
+                if (in.good())
+                        std::cout << c;
+        }
+        */
+
+        //modalitatea de citire din fisier care citeste de 2 ori valorile din fisier
+        while (!in.eof()) {
+                char c = in.get(); 
+                if (in.good())
+                        std::cout << c;
+        
+        }
+
+
+        in.close();
+        return 0;
+}

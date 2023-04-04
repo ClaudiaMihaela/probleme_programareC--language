@@ -1,0 +1,409 @@
+PROBLEMA 11
+
+
+﻿/*
+Batinas Claudia - gr 2112 - Citiți de la intrarea standard un tablou unidimensional de maxim 20 de valori întregi.Folosind mecanismul de
+căutare binară, determinați dacă o nouă valoare, a, introdusă de la tastatură există în șir.Dacă da, determinați
+toți factorii primi ai acestei valori pe care îi veți afișa pe ecran.*/
+
+#include <iostream>
+
+using namespace std;
+#define MAX 20
+
+int caut_bin(int* , int , int ); //prototip de functie pentru cautarea binara
+void desc_factori_primi(int); //prototip de functie pentru descompunerea in factori primi
+
+int main()
+{
+        int tab[MAX],n,a,rez=0;
+        cout << "\nIntroduceti n: ";
+        cin >> n; //am citit nr de elemente din tablou
+        if (n > 20 || n < 0) 
+        {
+                cout << "Dimensiune gresita!"; //validare
+                return 1;
+        }
+        for (int i = 0; i < n; i++)
+        {
+                cout << "tab[ " << i << "]= "; //am citit elementele tabloului
+                cin >> tab[i];
+        }
+        cout << "\nIntroduceti a: ";
+        cin >> a; //am citit valoarea care trebuie cautata
+        rez = caut_bin(tab, n, a);
+        if (rez != -1) cout << "Valoarea se gaseste in tablou"<<endl; //am verificat daca valoarea se gaseste in tablou
+        else cout << "Valoarea nu se gaseste in tablou"<<endl;
+        desc_factori_primi(a); //am afisat valorile prime ale lui a si puterile la care apar
+        return 0;
+
+
+
+}
+
+int caut_bin(int* p, int n, int val) //functie pentru cautarea binara
+{
+        int i, s, mij;
+        i = 0; //valoarea din stanga
+        s = n - 1; //valoarea din dreapta
+        mij = (i + s) / 2; //media aritmetica dintre val din stanga si cea din dreapta
+        while ((i <= s) && (val != p[mij])) 
+        {
+
+                if (val < p[mij]) s = mij - 1; //daca valoarea este mai mica decat cea din mijloc, limita din dreapta devine val din mijloc minus 1
+                else i = mij + 1; //altfel valoarea din stanga devine valoarea din mijloc plus 1
+                mij = (i + s) / 2;
+
+        }
+        if (p[mij] == val) //daca valoarea este egala cu valoarea din mijloc returnam valoarea din mijloc
+                return mij;
+        else
+                return -1; //in caz contrar returnam -1
+}
+
+
+void desc_factori_primi(int n) //functie pentru descompunerea in factori primi
+{
+        int d, p;
+        d = 2; //se determina daca numarul n are divizori proprii
+        while (n > 1)
+        {
+                p = 0;//p este initializat cu 0, pentru ca de fiecare data cand se reia instructiunea while sa se poata determina puterea la care apare factorul prim
+                //se verifica daca numarul n se imparte de mai multe ori la numarul d
+                while (n % d == 0)
+                {
+                        p++; //se contorizeaza puterea la care apare factorul prim in descompunere
+                        n = n / d; //se imparte n la d pentru a se putea continua impartirea si identificarea puterii
+                }
+                //daca numarul d se imparte macar o data la n se afiseaza d, alaturi de puterea la care apare in descompunere
+                //daca p este 0 inseamna ca numarul d nu se imparte deloc la n
+                if (p > 0)
+                
+                        cout << d << "^" << p << " "<<endl;
+                
+                    
+                d = d++; //creste d, pentru a putea identifica si alti factori primi ai descompunerii
+        }
+
+}
+
+
+PROBLEMA 12
+
+
+
+﻿/*
+Claudia Batinas gr 2112 -  Folosind un fișier care conține numere reale ordonate, căutați o valoare reală a introdusă de la tastatură în 
+cadrul șirului, folosind algoritmul de căutare binară iterativ, recursiv și funcția de bibliotecă bsearch(). Afișați 
+șirul citit, valoarea a și poziția folosind cei trei algoritmi specificați. 
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdlib.h>
+#include <stdio.h>
+
+int compare_float(const void* a, const void* b); //prototip de functie pentru numere reale
+
+int main()
+{
+        
+        double a = 0.0;
+        int i;
+        FILE* filep=fopen("fisier.txt", "w");
+        if (filep == NULL)
+        {
+                printf("\nEroare la deschidere!"); //validare la deschiderea fisierului
+                return 1;
+        }
+
+
+        
+        float float_values[] = { 3.4, 5.6, 7.9, 10.2, 11.3 };
+        int* int_ptr, int_value = 2, num;
+        float* float_ptr, float_value = 0.0;
+        for (i = 0; i < 5; ++i) {
+                fscanf(filep, "%lf", &float_values[i]);
+                fprintf(filep,"%lf\n", float_values[i]); //am afisat in fisier valorile din tablou
+                printf("%lf ", float_values[i]); //am afisat pe ecran valorile din tablou
+        }
+        fclose(filep);
+        
+        printf("\nIntroduceti a: ");
+        scanf("%lf", &a); //am citit valoarea care trebuie cautata
+        printf("\nNumarul citit de la tastatura este: %lf", a);
+        float_value = a;
+        num = sizeof(float_values) / sizeof(float);
+        //apel la functia de bibioteca bsearch() pentru sirul de numere reale
+        float_ptr = (float*)bsearch(&float_value, float_values, num, sizeof(float),
+                (int (*) (const void*, const void*)) compare_float);
+        if (float_ptr)
+
+        {
+                printf("\nValoarea %lf a fost gasita pe pozitia %d ", float_value, (float_ptr-float_values));//end if
+                
+                
+                
+        }
+        else
+                printf("Valoarea %lf nu a fost gasita!\n", float_value);//end else
+        return 0;
+
+        
+
+}//end main( )
+
+int compare_float(const void* a, const void* b) { //functie de comparare pt numere reale
+        float* fa = (float*)a;
+        float* fb = (float*)b;
+        if (*fa < *fb) return -1;
+        if (*fa > *fb) return 1;
+        return 0;
+}//end compare_float( )
+
+
+
+
+PROBLEMA 6
+
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Creaţi un fişier în care stocaţi un şir de numere întregi, generate in mod aleator. Preluaţi prin program aceste 
+valori. Folosiţi metoda divide et impera pentru a determina minimul şi maximul din şir şi afisaţi rezultatele pe 
+ecran. Actualizaţi fişierul iniţial adăugând aceste două valori.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <climits>
+
+#define MAX 30
+
+int det_min(int *a, int s, int d); //prototip de functie pentru a determina elementul minim din tablou
+int det_max(int* a, int s, int d); //prototip de functie pentru a determina elementul maxim din tablou
+
+int main()
+{
+        FILE* filep;
+        int tab[MAX],n,i,val_minim=INT_MAX, val_maxim=INT_MIN;
+
+        printf("\nIntroduceti numarul de elemente al tabloului: ");
+        scanf("%d", &n); //am citit nr de elemente
+
+        if (n > 30 || n <= 0)
+        {
+                printf("\nDimensiune gresita!"); //validare
+                return 1;
+        }
+        srand(time(NULL));
+
+        for ( i = 0; i < n; i++)
+        {
+                int num = rand(); //am generat elemente aleatorii in tablou
+                tab[i] = num;
+        }
+        for (i = 0; i < n; i++)
+        {
+                
+                printf("%d ", tab[i]); //am afisat pe ecran pentru verificare elementele tabloului
+        }
+
+
+        filep = fopen("fisier_p6.txt", "a");
+        if (filep == NULL)
+        {
+                printf("\nEroare la deschiderea fisierului"); //validare
+                return 1; 
+        }
+        i = 0;
+        while (i < n) {
+
+                fprintf(filep, "%d ", tab[i]); //am stocat in fisier elementele generate aleatoriu in tablou
+                i++;
+        }
+        fclose(filep);
+
+
+        val_minim = det_min(tab, 0, n-1);
+        printf("\nValoarea minima din tablou este: %d", val_minim); //am afisat val minima pe ecran
+
+        val_maxim = det_max(tab, 0, n - 1);
+        printf("\nValoarea maxima din tablou este: %d", val_maxim); //am afisat val maxima pe ecran
+
+        filep = fopen("fisier_p6.txt", "a");
+        if (filep == NULL)
+        {
+                printf("\nEroare la deschidere!"); //validare
+                return 1;
+
+        }
+        fprintf(filep, " %d ", val_minim); //am afisat in fisier valoarea minima
+        fprintf(filep, "%d", val_maxim); //am afisat in fisier valoarea maxima
+        fclose(filep);
+        return 0;
+}
+
+int det_min(int *a, int s, int d) //functie pentru a determina elementul minim din tablou
+{
+        if (s == d) return a[s];
+        else
+        {
+                int m = (s + d) / 2; //mijlocul
+                int m1 = det_min(a, s, m);
+                int m2 = det_min(a, m + 1, d);
+
+                if (m1 < m2)  return m1; //daca elementul din prima jumatate este m mic decat elementul din a jumatate functia il returneaza pe primul
+                else return m2;
+
+        }
+}
+
+
+int det_max(int* a, int s, int d) //functie pentru a determina elementul maxim din tablou
+{
+        if (s == d) return a[s];
+        else
+        {
+                int m = (s + d) / 2;
+                int m1 = det_max(a, s, m);
+                int m2 = det_max(a, m + 1, d);
+
+                if (m1 > m2)  return m1; //daca elementul din prima jumatate este m mare decat cel din a doua jumatate functia il returneaza pe acesta
+                else return m2;
+
+        }
+}
+
+
+PROBLEMA 7
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Scrieţi o aplicaţie care determină c.m.m.d.c. dintr-un tablou unidimensional de numere întregi (max. 2000 de 
+valori), utilizând metoda divide et impera. Elementele tabloului se pot citi de la tastatură sau dintr-un fisier.
+*/
+
+
+#include<iostream>
+using namespace std;
+#define MAX 30
+
+int cmmdc(int [], int, int); //prototip de functie care calculeaza cmmdc folosind Divide et Impera
+ 
+
+int main()
+{
+    int tab[MAX];
+    int n, i, rez = 0;
+    cout << "Introduceti numarul de elemente: ";
+    cin >> n; //am citit numarul de elemente
+    if (n > 30 || n <= 0)
+    {
+        cout << "Dimensiune gresita" << endl; //validare
+        return 1;
+    }
+
+    for (i = 0; i < n; i++)
+
+    {
+        cout << "tab[" << i << "]= "; //am citit elementele din tablou
+        cin >> tab[i];
+    }
+
+    rez=cmmdc(tab, 0, n-1);
+    cout << "Cmmdc: " << rez << endl; //am afisat cmmdc calculat prin metoda divide et impera
+    return 0;
+}
+
+
+int cmmdc(int tab[MAX], int s, int d) //functie care calculeaza cmmdc folosind Divide et Impera
+ 
+{
+    if (s == d) return tab[s];
+    else
+    {
+        int x, y;
+        x = cmmdc(tab, s, (s + d) / 2); //x reprezinta cmmdc din prima jumatate
+        y = cmmdc(tab, (s + d) / 2 + 1, d); //y reprezinta cmmdc din a doua jumatate
+        while (x != y)
+            if (x > y) x = x - y; //determinarea cmmdc dintre cele 2 jumatati
+            else y = y - x;
+        return x;
+    }
+}
+
+
+PROBLEMA 9
+
+
+
+
+﻿/*Batinas Claudia gr 2112 -  Să se scrie o aplicație C / C++ care să genereze aleator maxim 10 valori întregi, ce vor fi memorate într - un
+tablou unidimensional.Să se verifice dacă o altă valoare generată aleator aparține acestui tablou, utilizând
+funcția _lsearch()
+*/
+#include < iostream >
+
+
+using namespace std;
+
+int cmp(const void* arg1, const void* arg2); //prototip de functie de comparare
+int addelem(int key, int* tab, int n); //prototip de functie in care folosim _lsearch
+
+int main(void)
+{
+        const int nmax = 10;
+        int i, n, tab[nmax];
+
+        cout << " \nScrieti numarul de elemente al tabloului: ";
+        cin >> n; //am citit nr de elemente al tabloului
+
+        if (n > 10 || n <= 0)
+        {
+                cout << "\nDimensiune gresita!"; //validare
+                return 1;
+        }
+        int nr = 0;
+        for (i = 0; i < n; i++) {
+                nr = rand();
+                tab[i] = 100 * nr / RAND_MAX; // am generat in tablou numere aleatorii
+        }
+
+        cout << "\nTabloul cu elemente generate aleatoriu: "<<endl;
+
+        for (i = 0; i < n; i++) 
+        {
+                cout << "\ntab[ " << i << "]= " << tab[i]; //am afisat tabloul
+        }
+
+
+        int key;
+        cout << "\nScrieti numarul care trebuie cautat: ";
+        cin >> key; //am citit numarul care trebuie cautat
+
+        if (addelem(key, tab, n))
+                cout  << key << " s-a gasit in tablou"; //am afisat elementul daca s-a gasit in tablou
+        else
+                cout << key << " nu s-a gasit in tablou";
+        return 0;
+
+}
+
+int addelem(int key, int* tab, int n) //functie in care folosim _lsearch
+{
+        int oldn = n;
+        _lsearch(&key, tab, (unsigned*)&n, sizeof(int*), (int(*)(const void*, const void*))cmp);
+        return(n == oldn);
+}
+
+int cmp(const void* a, const void* b) { //functie de comparare
+        int* fa = (int*)a;
+        int* fb = (int*)b;
+        if (*fa < *fb) return -1;
+        if (*fa > *fb) return 1;
+        return 0;
+}

@@ -1,0 +1,830 @@
+PROBLEMA 1
+
+
+
+/*
+Batinas Claudia gr 2112 - Construiţi o aplicaţie în care clasa OraCurenta are ca atribute private ora, minutele şi secundele şi metode 
+publice de tip set/get pentru atributele clasei. Adaugaţi o functie friend clasei prin care să se poată copia 
+conţinutul unui obiect OraCurenta dat ca si parametru, într-un alt obiect instanţă a aceleiaşi clase care va fi 
+returnat de functie, ora fiind insa modificata la Greenwich Mean Time. Utilizati timpul curent al calculatorului.
+
+*/
+
+
+#include<iostream>
+using namespace std;
+
+class OraCurenta {
+
+    int ora;
+    int minute; //atribute private
+    int secunde;
+
+public:
+
+    void setData(int hour, int min, int sec)
+    {
+        ora = hour;
+        minute = min; //setter pentru a accesa datele private
+        secunde = sec;
+        
+    }
+    //getteri pt datele private
+    int getOra()
+    {
+        return ora;
+    }
+    int getMinute()
+    {
+        return minute;
+    }
+    int getSecunde()
+    {
+        return secunde;
+    }
+    friend OraCurenta copyData(OraCurenta a); //functia prietena pt a copia datele
+};
+OraCurenta copyData(OraCurenta a)
+{
+    OraCurenta o1, m1, s1;
+    o1.ora = a.ora;
+    m1.ora = a.minute;
+    s1.secunde = a.secunde;
+    return a; //am returnat obiectul de tip OraCurenta
+}
+int main()
+{
+    int ora, min, sec;
+    cout << "\nIntroduceti ora: "; 
+    cin >> ora;
+    cout << "\nIndtroduceti minutul: ";
+    cin >> min;
+    cout << "\nIntroduceti secunda: ";      //am citit datele
+    cin >> sec;
+    OraCurenta obiect;
+    OraCurenta obiect1;
+    obiect.setData(ora, min, sec);
+    obiect1 = copyData(obiect); //am copiat datele in noul obiect
+    
+    if (obiect1.getOra() < 0 || obiect1.getOra() > 24)
+    {
+        cout << "\nNu ati introdus ora corecta!"; //validare ora
+        return 1;
+    }
+    else cout << "\nOra este :" << obiect1.getOra();
+
+    if (obiect1.getMinute() < 0 || obiect1.getMinute() > 59) //validare minut
+    {
+        cout << "\nNu ati introdus minutul corect!";
+        return 1;
+    }
+    else cout << "\nMinutul este : " << obiect1.getMinute();
+
+    if (obiect1.getSecunde() < 0 || obiect1.getSecunde() > 59) //validare secunda
+    {
+        cout << "\nNu ati introdus secunda corecta!";
+        return 1;
+    }
+    else cout<< "\nSecunda este: " << obiect1.getSecunde();
+    return 0;
+}
+
+
+
+PROBLEMA 2
+
+
+
+
+
+/*Batinas Claudia gr 2112 -Scrieţi o aplicaţie C/C++ în care clasa Calculator are un atribut privat memorie_RAM (int) şi o funcție prietenă
+tehnician_service( ) care permite modificarea valorii acestui atribut. Functia friend va fi membra intr-o alta
+clasa, Placa_de_baza care are o componentă denumire_procesor (sir de caractere). Scrieţi codul necesar care
+permite funcției prietene tehnician_service( ) să modifice (schimbe) valoarea variabilei denumire_procesor si
+memorie _RAM.*/
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include <string.h>
+
+using namespace std;
+const int dim_sc = 20;
+class Calculator; //declaratie incompleta;
+class Placa_de_baza
+{
+
+        char* den_proc;
+public:
+        Placa_de_baza()
+        {
+                den_proc = new char[dim_sc];
+                strcpy(den_proc, " ");
+
+        }
+        void tehnician_service(Calculator& x, Placa_de_baza& y, int a, char* b);
+        void afis()
+        {
+                cout << "\n\tDenumirea procesorului: " << den_proc;
+
+        }
+
+};
+class Calculator
+{
+        int mem_RAM;
+public:
+        Calculator()
+        {
+                mem_RAM = 0;
+        }
+        friend void Placa_de_baza::tehnician_service(Calculator& x, Placa_de_baza& y, int a, char* b);//funcție friend membră în altă clasă
+        void afis()
+        {
+                cout << "\n\tMemoria RAM este: " << mem_RAM;
+        }
+};
+void Placa_de_baza::tehnician_service(Calculator& mem, Placa_de_baza& den, int m, char* d)
+{
+        mem.mem_RAM = m;
+        den.den_proc = new char[strlen(d)];
+        strcpy(den.den_proc, d);
+}
+int main()
+{
+        Calculator ob1;
+        Placa_de_baza ob2;
+
+        char den_procesor[dim_sc];
+        int memorie_RAM;
+
+        cout << "\nIntroduceti valoarea memoriei RAM: ";
+        cin >> memorie_RAM;
+        if (memorie_RAM < 0)
+        {
+                cout << "\nValoarea nu este corecta!";
+                return 0;
+        }
+        cout << "\nIntroduceti denumirea procesorului: ";
+        cin >> den_procesor;
+
+        ob2.tehnician_service(ob1, ob2, memorie_RAM, den_procesor);
+        ob1.afis();
+        ob2.afis();
+        return 0;
+}
+
+
+
+PROBLEMA 3
+
+
+
+
+
+//Rad Amalia si Batinas Claudia, Grupa 2112, Seria A
+/*Definţi o clasă numită Repository care are două variabile private de tip întreg. Clasa mai conţine un constructor
+explicit vid si unul cu 2 parametri şi o metodă accesor care afişează valorile variabilelor din clasă. Scrieţi o
+clasă numită Mathemathics, friend cu prima clasă, care implementează operaţiile aritmetice elementare (+, -, *,
+/) asupra variabilelor din prima clasa. Fiecare metoda primeşte ca parametru un obiect al clasei Repository.*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+class Matemathics; //declaratie incompleta
+class Repository
+{
+        friend class Mathemathics;//Mathemathics e friend cu Repository
+private:
+        int x;
+        int y;
+public: Repository() = default;//constructor explicit vid
+          Repository(int x, int y)// constructor cu doi parametrii
+          {
+                  this->x = x;
+                  this->y = y;
+          }
+          void afisare()
+          {
+                  cout << "\nx= " << x << " " << "\ny= " << y;
+          }
+};
+class Mathemathics {
+public:
+        void operator +(Repository rez)
+        {
+                cout << "\nOperatia de adunare: " << rez.x + rez.y;
+                cout << endl;
+        }
+        void operator -(Repository rez)
+        {
+                cout << "\nOperatia de scadere: " << rez.x - rez.y;
+                cout << endl;
+        }
+        void operator *(Repository rez)
+        {
+                cout << "\nOperatia de inmultire: " << rez.x * rez.y;
+                cout << endl;
+        }
+        void operator /(Repository rez)
+        {
+                if (rez.y != 0)
+                {
+                        cout << "\nOperatia de impartire: " << (float)rez.x / rez.y;
+                        cout << endl;
+                }
+                else
+                        cout << "\nNumitorul este 0.";
+        }
+};
+int main()
+{
+        Mathemathics ob;
+        int x, y;
+        cout << "\nx= ";
+        cin >> x;
+        cout << "\ny= ";
+        cin >> y;
+        Repository rez(x, y);
+        rez.afisare();
+
+        ob.operator +(rez);
+        ob.operator -(rez);
+        ob.operator *(rez);
+        ob.operator /(rez);
+
+        return 0;
+
+}
+
+
+PROBLEMA 4
+
+
+
+
+/*Batinas Claudia gr 2112 - Scrieţi o aplicaţie C/C++ care defineşte într-o clasă variabila publică contor var_static de tip static întreg.
+Aceasta se va incrementa în cadrul constructorului. După o serie de instanţieri, să se afişeze numarul de obiecte
+create (conţinutul variabilei var_static).*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+class Contor
+{
+private:
+    int valoare; //membru privat
+public:
+    static int var_static; //membru public intreg static
+
+    Contor(int val) //constructor in cadrul caruia am incrementat var_static
+    {
+        valoare = val;
+        var_static++;
+    }
+
+    void setValoare(int val) //setter pt valoare
+    {
+        valoare = val;
+    }
+
+    int getValoare() { //getter pt valoare
+        return valoare;
+    }
+
+   
+    static void getVar_static()
+    {
+
+        cout << "\nContorul obiectelor create este:  " << var_static; //am afisat contorul valorile date obiectelor
+
+    }
+
+};
+int Contor::var_static; //re-declarare si initializare implicita cu 0
+
+int main()
+{
+    bool ok = false;
+    char c=0;
+    int val,cnt=0;
+    Contor ob{0};
+   
+    cout << "\nIntroduceti valoarea: ";
+    cin >> val; //am citit prima valoare
+    ob.setValoare(val);
+    cout << "\nValoarea este: " << ob.getValoare() << endl; //am afisat prima valoare citita
+   
+    cout << "\nContinuati sa introduceti valoarea? (D/N)";
+    cin >> c; //am citit caracterul c pt validare
+    while (ok == false)
+    {
+        if (c == 'D') //daca citim 'D' inseamna ca mai dorim sa citim valori 
+        {
+            cout << "\nIntroduceti valoarea: ";
+            cin >> val;
+            ob.setValoare(val);
+            Contor ob2(val); //crestem contorul
+            cout << "\nValoarea este: " << ob.getValoare() << endl; //am afisat valoarea
+        }
+        else {
+            ok = true; //daca citim 'N' ne oprim din citit valori
+            break;
+        }
+        cout << "\nContinuati sa introduceti valoarea? (D/N)"; //validare
+        cin >> c;
+    }
+    
+    Contor::getVar_static(); //apel functie de afisare
+    return 0;
+
+}
+
+
+PROBLEMA 5
+
+
+
+/*
+Batinas Claudia gr 2112 - Rezolvaţi problema 4 în cazul în care variabila statică este de tip private. Definiţi o metodă accesor care
+returnează valoarea contorului. Analizati cazul in care metoda accesor e statica sau nestatica si modul in care e
+apelata.
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+class Contor
+{
+private:
+    int valoare;            //membrii privat
+    static int var_static;
+public:
+   
+
+    Contor(int val) //constructor in cadrul caruia am incrementat var_static
+    {
+        valoare = val;
+        var_static++;
+    }
+
+    void setValoare(int val) //setter pt valoare
+    {
+        valoare = val;
+    }
+
+    int getValoare() { //getter pt valoare
+        return valoare;
+    }
+
+    static void getCnt()
+    {
+        cout << "\nContorul obiectelor create este:  " << var_static; //am afisat contorul valorile date obiectelor
+
+    }
+
+    static void getVar_static()
+    {
+
+        cout << "\nVal_static este egal cu:  " << var_static; //am afisat valoarea lui val_static
+
+    }
+
+};
+int Contor::var_static; //re-declarare si initializare implicita cu 0
+
+int main()
+{
+    bool ok = false;
+    char c = 0;
+    int val, cnt = 0;
+    Contor ob{ 0 };
+
+    cout << "\nIntroduceti valoarea: ";
+    cin >> val; //am citit prima valoare
+    ob.setValoare(val);
+    cout << "\nValoarea este: " << ob.getValoare() << endl; //am afisat prima valoare citita
+
+    cout << "\nContinuati sa introduceti valoarea? (D/N)";
+    cin >> c; //am citit caracterul c pt validare
+    while (ok == false)
+    {
+        if (c == 'D') //daca citim 'D' inseamna ca mai dorim sa citim valori 
+        {
+            cout << "\nIntroduceti valoarea: ";
+            cin >> val;
+            ob.setValoare(val);
+            Contor ob2(val); //crestem contorul
+            cout << "\nValoarea este: " << ob.getValoare() << endl; //am afisat valoarea
+        }
+        else {
+            ok = true; //daca citim 'N' ne oprim din citit valori
+            break;
+        }
+        cout << "\nContinuati sa introduceti valoarea? (D/N)"; //validare
+        cin >> c;
+    }
+
+    Contor::getVar_static(); //apel functie de afisare
+    Contor::getCnt();
+    return 0;
+
+}
+
+
+
+PROBLEMA 6
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Scrieţi o aplicaţie C/C++ în care să implementați clasa Punct cu atributele private x si y. Implementați o funcție
+friend care să calculeze aria și perimetrul a doua forme geometrice definite de două puncte, considerând că
+aceasta are doua puncte ca si parametrii P0(x0,y0) și P1 (x1, y1). Adăugați funcției un parametru întreg figura
+prin care să indicați cele doua figuri geometrice ce sunt definite de punctele (x0, y0) si (x1, y1). Astfel, pentru 
+un cerc, figura=1, coordonatele (x0, y0) și (x1, y1) vor reprezenta două puncte complementare pe cerc 
+(diametrul). Dacă este triunghi dreptunghic, punctele definesc ipotenuza iar figura va fi =2; Celelalte laturi ale 
+triunghiului se vor determina pornind de la cele doua puncte. Coordonatele punctelor si apoi selecția figurii 
+geometrice se va realiza introducând de la tastatura parametrii.
+
+*/
+
+
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+
+class Punct {
+
+    int x, y;
+
+public:
+
+    void setX(int coord1)
+    {
+        x = coord1;
+    }
+    int getX()
+    {
+        return x;
+    }
+    void setY(int coord2)
+    {
+        y = coord2;
+    }
+    int getY()
+    {
+        return y;
+    }
+
+    friend double Aria_and_Perim(Punct, Punct, int);
+};
+
+
+double Aria_and_Perim(Punct P0, Punct P1, int figura)
+{
+    float aria = 0, diam=0, raza=0, ipot=0, cat1=0, cat2=0;
+
+    if (figura == 1)
+    {
+        cout << "\n\tSe calculeaza aria cercului ";
+
+        diam = sqrt((P1.x - P0.x) * (P1.x - P0.x) + (P1.y - P0.y) * (P1.y - P0.y));
+
+        raza = diam / 2;
+
+        aria = 3.14 * raza * raza;
+    }
+    else
+
+        if (figura == 2)
+        {
+            cout << "\n\tSe calculeaza aria triunghiului ";
+
+            cat1 = sqrt((P0.x) * (P0.x) + (P0.y) * (P0.y));
+            cat2 = sqrt((P1.x) * (P1.x) + (P1.y) * (P1.y));
+            ipot = sqrt((P1.x - P0.x) * (P1.x - P0.x) + (P1.y - P0.y) * (P1.y - P0.y));
+
+            aria = (cat1 * cat2) / ipot;
+        }
+    return aria;
+}
+
+int main()
+{
+    int p0_x=0, p0_y=0, p1_x=0, p1_y=0,form=0;
+    double supr = 0.0;
+    Punct P0, P1;
+
+    cout << "\n\tIntroduceti coordonatele punctelor:";
+
+    cout << "\nCoordonata lui p0_x este: ";
+    cin >> p0_x;
+    P0.setX(p0_x);
+
+    cout << "\nCoordonata lui p0_y este: ";
+    cin >> p0_y;
+    P0.setY(p0_y);
+
+    cout << "\nCoordonata lui p1_x este: ";
+    cin >> p1_x;
+    P1.setX(p1_x);
+
+    cout << "\nCoordonata lui p1_y este: ";
+    cin >> p1_y;
+    P1.setY(p1_y);
+
+    cout << "\n\tIntroduceti forma: (1-cerc; 2-triunghi) ";
+   cin >> form;
+
+    
+    supr = Aria_and_Perim(P0, P1, form);
+    cout << endl << "Aria figurii este: " << supr;
+
+    return 0;
+
+}
+
+
+
+PROBLEMA 7
+
+
+
+/*
+Batinas Claudia gr 2112 -La un chioșc se vând ziare, reviste și carți. Fiecare publicație are un nume, o editură, un număr de pagini, un 
+număr de exemplare per publicație și un preț fără TVA. Scrieți clasa care modelează publicațiile. Adăugați un 
+membru static valoare_tva (procent) și o metodă statică pentru modificarea valorii TVA-ului. Să se calculeze 
+suma totală cu TVA pe fiecare tip de publicație (ziare, reviste și carți) și prețul mediu pe pagina la fiecare 
+publicație în parte. Modificați TVA-ul și refaceți calculele. Afișați editurile ordonate în funcție de încasări.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+const int dim_sir = 15;
+
+class Chiosc
+{
+        char nume[dim_sir];
+        char edit[dim_sir];
+        int nr_pg;
+        int nr_ex;
+        int pret;
+        static int valoare_tva;
+
+public:
+        Chiosc() = default;
+        Chiosc(char *n, char* e, int np, int ne, int p, int v) //constructor explicit one parameter
+        {
+                strcpy(nume, n);
+                strcpy(edit, e);
+                nr_pg = np;
+                nr_ex = ne;
+                pret = p;
+                valoare_tva = v;
+
+                
+        }
+
+        void setNume(char *n)
+        {
+                strcpy(nume, n);
+        }
+        char* getNume()
+        {
+                return nume;
+        }
+        void setEdit(char* e)
+        {
+                strcpy(edit, e);
+        }
+        char* getEdit()
+        {
+                return edit;
+        }
+        void setNr_pg(int n)
+        {
+                nr_pg = n;
+        }
+        int getNr_pg()
+        {
+                return nr_pg;
+        }
+        void setNr_ex(int n1)
+        {
+                nr_ex = n1;
+        }
+        int getNr_ex()
+        {
+                return nr_ex;
+        }
+        
+        
+        void setPret(int p)
+        {
+                pret = p;
+        }
+        int getPret()
+        {
+                return pret;
+        }
+
+        static void setValoare_tva(int v)
+        {
+                valoare_tva = v;
+        }
+        static int getValoare_tva()
+        {
+                return valoare_tva;
+        }
+};
+
+int Chiosc::valoare_tva;
+
+
+int main()
+{
+        int nrpz = 0, nrez = 0, pretzi = 0, pretzf = 0, tva = 0,tva1=0;
+        int nrpr = 0, nrer = 0, pretri = 0, pretrf = 0;
+        int nrpc = 0, nrec = 0, pretci = 0, pretcf = 0;
+        Chiosc ziar, revista, carte;
+        float pret_z = 0, pret_r = 0, pret_c = 0,inc_z=0,inc_r=0,inc_c=0;
+        char namez[dim_sir],  nameez[dim_sir], namer[dim_sir], nameer[dim_sir],namec[dim_sir], nameec[dim_sir];
+        cout << "\n\tTIP PUBLICATIE: ZIAR";
+        cout << "\nIntroduceti numele ziarului: ";
+        cin >> namez;
+        ziar.setNume(namez);
+        cout<<"\nIntroduceti editura ziarului: ";
+        cin >> nameez;
+        ziar.setEdit(nameez);
+        cout << "\nIntroduceti nr de pagini de ziare: ";
+        cin >> nrpz;
+        ziar.setNr_pg(nrpz);
+        
+        cout << "\nIntroduceti nr de exemplare de ziare: ";
+        cin >> nrez;
+        ziar.setNr_ex(nrez);
+        cout << "\nIntroduceti pretul ziarului(fara TVA): ";
+        cin >> pretzi;
+        ziar.setPret(pretzi);
+
+
+        cout << "\n\tTIP PUBLICATIE: REVISTA";
+        cout << "\nIntroduceti numele revistei: ";
+        cin >> namer;
+        revista.setNume(namer);
+        cout << "\nIntroduceti editura revistei: ";
+        cin >> nameer;
+        revista.setEdit(nameer);
+        cout << "\nIntroduceti nr de pagini de reviste: ";
+        cin >> nrpr;
+        revista.setNr_pg(nrpr);
+        cout << "\nIntroduceti nr de exemplare de reviste: ";
+        cin >> nrer;
+        revista.setNr_ex(nrer);
+        cout << "\nIntroduceti pretul revistei(fara TVA): ";
+        cin >> pretri;
+        revista.setPret(pretri);
+
+
+        cout << "\n\tTIP PUBLICATIE: CARTE";
+        cout << "\nIntroduceti numele cartii: ";
+        cin >> namec;
+        carte.setNume(namec);
+        cout << "\nIntroduceti editura cartii: ";
+        cin >> nameec;
+        carte.setEdit(nameec);
+        cout << "\nIntroduceti nr de pagini de carti: ";
+        cin >> nrpc;
+        carte.setNr_pg(nrpc);
+        cout << "\nIntroduceti nr de exemplare de carti: ";
+        cin >> nrec;
+        carte.setNr_ex(nrec);
+        cout << "\nIntroduceti pretul cartii(fara TVA): ";
+        cin >> pretci;
+        carte.setPret(pretci);
+        
+
+        cout << "\nIntroduceti valoarea TVA-ului";
+        cin >> tva;
+        ziar.setValoare_tva(tva);
+        revista.setValoare_tva(tva);
+        carte.setValoare_tva(tva);
+
+        cout << "\nNumele ziarului: "<<ziar.getNume();
+        cout << "\nEditura ziarului: "<<ziar.getEdit();
+        cout << "\nNr de pagini de ziare: "<<ziar.getNr_pg();
+        cout << "\nNr de exemplare de ziare: "<<ziar.getNr_ex();
+        cout << "\nPretul ziarului(fara TVA): "<<ziar.getPret();
+    pret_z= (float)(ziar.getPret()+ ziar.getPret()*ziar.getValoare_tva()/100);
+        cout << "\nPretul ziarului(cu TVA): " << pret_z;
+
+        cout << "\nNumele revistei: " << revista.getNume();
+        cout << "\nEditura revistei: " << revista.getEdit();
+        cout << "\nNr de pagini de reviste: " << revista.getNr_pg();
+        cout << "\nNr de exemplare de reviste: " << revista.getNr_ex();
+        cout << "\nPretul revistei(fara TVA): " << revista.getPret();
+        pret_r = (float)(revista.getPret() + revista.getPret() * revista.getValoare_tva() / 100);
+        cout << "\nPretul ziarului(cu TVA): " << pret_r;
+
+        cout << "\nNumele cartii: " << carte.getNume();
+        cout << "\nEditura cartii: " << carte.getEdit();
+        cout << "\nNr de pagini de carti: " << carte.getNr_pg();
+        cout << "\nNr de exemplare de carti: " << carte.getNr_ex();
+        cout << "\nPretul cartii(fara TVA): " << carte.getPret();
+        pret_c = (float)(carte.getPret() + carte.getPret() * carte.getValoare_tva() / 100);
+        cout << "\nPretul cartii(cu TVA): " << pret_c;
+
+
+        cout << "\n\tPretul mediu/pagina al ziarelor este : " << pret_z / ziar.getNr_pg();
+        cout << "\n\t Pretul mediu/pagina al revistelor este: " << pret_r / revista.getNr_pg();
+        cout << "\n\tPretul mediu/pagina al ziarelor este: " << pret_c / carte.getNr_pg();
+
+
+        cout << "\nIntroduceti un noua valoare a TVA-ului: ";
+        cin >> tva1;
+        ziar.setValoare_tva(tva1);
+        revista.setValoare_tva(tva1);
+        carte.setValoare_tva(tva1);
+
+        pret_z = (float)(ziar.getPret() + ziar.getPret() * ziar.getValoare_tva() / 100);
+        cout << "\nPretul ziarului(cu noul TVA): " << pret_z;
+
+        pret_r = (float)(revista.getPret() + revista.getPret() * revista.getValoare_tva() / 100);
+        cout << "\nPretul ziarului(cu noul TVA): " << pret_r;
+
+        pret_c = (float)(carte.getPret() + carte.getPret() * carte.getValoare_tva() / 100);
+        cout << "\nPretul cartii(cu noul TVA): " << pret_c;
+
+
+        cout << "\n\tPretul mediu/pagina al ziarelor(cu noul TVA) este : " << pret_z / ziar.getNr_pg();
+        cout << "\n\t Pretul mediu/pagina al revistelor este(cu noul TVA): " << pret_r / revista.getNr_pg();
+        cout << "\n\tPretul mediu/pagina al ziarelor este(cu noul TVA): " << pret_c / carte.getNr_pg();
+
+        inc_z = pret_z * ziar.getNr_ex();
+        inc_r = pret_r * revista.getNr_ex();
+        inc_c = pret_c * carte.getNr_ex();
+        cout << "\nOrdonarea dupa incasari este: ";
+        if (inc_z > inc_r)
+        {
+                if (inc_r > inc_c)
+                {
+                        
+                        cout << "\nIncasarile ziarelor: " << ziar.getEdit();
+                        cout << "\nIncasarile revistelor:" << revista.getEdit();
+                        cout<<"\nIncasarile cartilor:" << carte.getEdit();
+                }
+                else
+                {
+                        if (inc_z > inc_c)
+                        {
+                                cout << "\nIncasarile ziarelor: " << ziar.getEdit();
+                                cout << "\nIncasarile cartilor:" << carte.getEdit();
+                                cout << "\nIncasarile revistelor:" << revista.getEdit();
+
+                        }
+                                
+                        else
+                        {
+                                cout << "\nIncasarile cartilor:" << carte.getEdit();
+                                cout << "\nIncasarile ziarelor: " << ziar.getEdit();
+                                cout << "\nIncasarile revistelor:" << revista.getEdit();
+                                
+                        }
+
+                }
+        }
+        else
+        {
+                if (inc_r > inc_c)
+                {
+                        if (inc_c > inc_z)
+                        {
+                                cout << "\nIncasarile revistelor:" << revista.getEdit();
+                                cout << "\nIncasarile cartilor:" << carte.getEdit();
+                                cout << "\nIncasarile ziarelor: " << ziar.getEdit();
+
+                        }
+                                
+                        else
+                        {
+                                cout << "\nIncasarile revistelor:" << revista.getEdit();
+                                cout << "\nIncasarile ziarelor: " << ziar.getEdit();
+                                cout << "\nIncasarile cartilor:" << carte.getEdit();
+                        }
+                                
+                }
+                else
+                {
+                        cout << "\nIncasarile cartilor:" << carte.getEdit();
+                        cout << "\nIncasarile revistelor:" << revista.getEdit();
+                        cout << "\nIncasarile ziarelor: " << ziar.getEdit();
+
+                }
+                        
+        }
+
+        return 0;
+}

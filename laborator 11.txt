@@ -1,0 +1,909 @@
+PROBLEMA 1
+
+
+
+
+/*Batinas Claudia gr 2112  
+1. În cazul exemplului 3 (care exemplifică moştenirea simplă, cu clasa de bază Pozitie şi derivată 
+Punct) se cer următoarele:
+a. urmariţi şi verificaţi ordinea de apel pentru constructori/destructori
+b. extindeţi funcţia main( ) pentru a utiliza toate metodele din clasa de baza şi din clasa 
+derivată
+c. introduceţi o nouă clasă Cerc (date şi metode), derivată din clasa Pozitie
+d. scrieţi un program ce utilizează aceste clase.
+*/
+
+#include <iostream>
+using namespace std;
+#define  _USE_MATH_DEFINES
+#include<math.h>
+#include "Clase.h"
+
+/*
+class Pozitie {
+protected:int x, y;
+public:
+    Pozitie(int = 0, int = 0);
+    Pozitie(Pozitie&);
+    ~Pozitie();
+    void display();
+    void deplasare(int, int);
+};
+// constructor
+Pozitie::Pozitie(int abs, int ord)
+{
+    x = abs;
+    y = ord;
+    cout << "Constructor \"Pozitie\", ";
+    display();
+}
+//constructor de copiere
+Pozitie::Pozitie(Pozitie& p)
+{
+    x = p.x;
+    y = p.y;
+    cout << "Constructor de copiere \"Pozitie\", ";
+    display();
+}
+// destructor
+Pozitie::~Pozitie()
+{
+    cout << "Destructor \"Pozitie \", ";
+    display();
+}
+void Pozitie::display()
+{
+    cout << "coordonatele: x = " << x << ", y = " << y<<endl;
+}
+void Pozitie::deplasare(int dx, int dy)
+{
+    x += dx;
+    y += dy;
+}
+
+// clasa derivata
+class Punct : public Pozitie {
+protected:
+    int vizibil;
+    char culoare;
+public:
+    Punct(int = 0, int = 0, char = 'A');
+    Punct(Punct&);
+    ~Punct();
+    void arata()
+    {
+        vizibil = 1;
+    }
+    void ascunde()
+    {
+        vizibil = 0;
+    }
+    void coloreaza(char c)
+    {
+        culoare = c;
+    }
+    void deplasare(int, int);
+    void afisare();
+};
+// constructor
+Punct::Punct(int abs, int ord, char c) :Pozitie(abs, ord)
+{
+    vizibil = 0;
+    culoare = c;
+
+    cout << "Constructor \"Punct\", ";
+    afisare();
+}
+// constructor de copiere
+Punct::Punct(Punct& p) :Pozitie(p.x, p.y)
+{
+    vizibil = p.vizibil;
+    culoare = p.culoare;
+
+    cout << "Constructor de copiere \"Punct\", ";
+    afisare();
+}
+// destructor
+Punct::~Punct()
+{
+    cout << "Destructor \"Punct\", ";
+    afisare();
+}// redefinire functie de afisare in clasa derivata
+void Punct::afisare()
+{
+    cout << "Pozitie: x = " << x << ", y = " << y;
+
+    cout << ", culoare: " << culoare;
+
+    if (vizibil)
+        cout << ", vizibil \n";
+    else
+        cout << ", invizibil \n";
+}
+// redefinire functie de deplasare in clasa derivata
+void Punct::deplasare(int dx, int dy)
+{
+    if (vizibil)
+    {
+        cout << "Deplasare: ";
+        afisare();
+    }
+    x += dx;
+    y += dy;
+
+    if (vizibil)
+    {
+
+        Pozitie::display();
+    }
+}
+
+class  Cerc :public  Punct
+{
+protected:
+    int  raza;
+public:
+    Cerc(int  x, int  y, char  culoare_c, int  raza_c) :Punct(x, y, culoare_c)
+    {
+        raza = raza_c;
+    }
+    double  getPerim()
+    {
+        return  2 * 3.14 * raza;
+    }
+    double  getAria()
+    {
+        return  3.14 * raza * raza;
+    }
+    void  display()
+    {
+        cout << "\nCercul are raza:  " << raza << " si centrul in: ("<<x<<", "<<y<<")"<<endl;
+        Punct::Pozitie::display();
+
+        cout << "\nculoarea este:  " << culoare<<endl;
+
+        if (vizibil)
+            cout << "\nEste vizibil " << endl;
+        else
+            cout << "Este invizibil " << endl;
+
+        cout << "\n  Aria  este:" << getAria();
+        cout << "\n  Perimetrul  este:  " << getPerim()  << endl;
+    }
+};
+
+*/
+
+int main()
+{
+
+    Punct p0(2, 3, 'C');
+    Punct p1(p0);
+
+    p1.arata();
+    p1.deplasare(15, 15);
+    cout << "\n\t\tPunctul se deplaseaza cu 2 in coordonatele: " << endl;
+
+    p1.Pozitie::deplasare(2, 2);//se apeleaza metoda de deplasare din clasa de baza
+    p1.Pozitie::display();//se apeleaza metoda de afisare din clasa de baza
+
+    Cerc  circle(5, 5, 'B', 8);
+    circle.display();
+
+    return 0;
+
+}
+
+
+
+PROBLEMA 2
+
+
+
+
+/*Batinas Claudia gr 2112 - La exemplul al patrulea extindeţi clasa de bază cu alte metode virtuale, redefinite în clasele
+derivate, cum ar fi metode get() şi set() pentru greutatea vehiculului(variabila greutate).
+*/
+#include<iostream>
+using namespace std;
+#include "Vehicule.h"
+
+/*
+class Vehicul { //clasa de baza
+protected:
+
+    int roti = 0;
+    float greutate = 0.0f; //atribute protected
+public:
+    virtual void mesaj() {
+        cout << "Mesaj din clasa Vehicul\n";
+    }
+    //setteri si getteri pentru greutate
+    void  setGreutate(float greut) {
+        greutate = greut;
+    }
+    float getGreutate() {
+        return greutate;
+    }
+};
+
+class Automobil : public Vehicul { //clasa derivata
+    int incarcatura_pasageri = 0; //atribut implicit private
+public:
+    void mesaj() override {
+        cout << "Mesaj din clasa Automobil"<<endl;
+    }
+};
+
+class Camion : public Vehicul { //clasa derivata
+    int incarcatura_pasageri =0;
+    float incarcatura_utila = 0.0f; //atribute implicit private
+public:
+    int pasageri(void) { //metoda publica care returneaza incarcatura_pasageri
+        return incarcatura_pasageri;
+    }
+};
+
+class Barca : public Vehicul { //clasa derivata
+    int incarcatura_pasageri = 0;
+public:
+    int pasageri(void) //metoda publica care returneaza incarcatura_pasageri
+    {
+        return incarcatura_pasageri;
+    }
+    void mesaj(void) {
+        cout << "Mesaj din clasa Barca\n";
+    }
+};
+
+
+
+
+
+*/
+
+int main()
+{
+    // apel direct, prin intermediul unor obiecte specifice
+    float gr_mono = 0.0f;
+    float gr_auto = 0.0f;
+    float gr_cam = 0.0f;
+    float gr_barca=0.0f;
+    //am citit valorile greutatilor
+    cout << "\nIntroduceti greutatea monocicletei: "<<endl;
+    cin >> gr_mono;
+    cout << "\nIntroduceti greutatea automobilului: "<<endl;
+    cin >> gr_auto;
+    cout << "\nIntroduceti greutatea camionului: "<<endl;
+    cin >> gr_cam;
+    cout << "\nIntroduceti greutatea barcii de pescuit: "<<endl;
+    cin >> gr_barca;
+
+    Vehicul monocicleta;
+    monocicleta.setGreutate(gr_mono);
+    cout << "\nGreutatea monocicletei: " << monocicleta.getGreutate() << endl;
+    monocicleta.mesaj();
+
+    Automobil automob;
+    automob.setGreutate(gr_auto);
+    cout << "Greutatea automobilului: " << automob.getGreutate() << endl;
+    automob.mesaj();
+
+    Camion cam;
+    cam.setGreutate(gr_cam);
+    cout << "Greutatea camionului: " << cam.getGreutate() << endl;
+    cam.mesaj();
+
+    Barca barca_p;
+    barca_p.setGreutate(gr_barca);
+    cout << "Greutatea barcii de pescuit: " << barca_p.getGreutate() << endl;
+    barca_p.mesaj();// apel prin intermediul unui pointer specific
+
+    
+
+    cout << "\n\tValorile greutatii(pointer catre obiect din clasa): " << endl;
+
+    Vehicul* pmonocicleta;
+    pmonocicleta = &monocicleta;
+    pmonocicleta->setGreutate(gr_mono);
+    pmonocicleta->mesaj();
+    cout << "Greutatea monocicletei :" << pmonocicleta->getGreutate() << endl;
+
+    Automobil* pauto;
+    pauto = &automob;
+    pauto->setGreutate(gr_auto);
+    pauto->mesaj();
+    cout << "Greutatea automobilului: " << pauto->getGreutate() << endl;
+
+    Camion* pcam;
+    pcam = &cam;
+    pcam->setGreutate(gr_cam);
+    pcam->mesaj();
+    cout << "Greutatea camionului: " << pcam->getGreutate() << endl;
+
+    Barca* pbarca_p;
+    pbarca_p = &barca_p;
+    pbarca_p->setGreutate(gr_barca);
+    pbarca_p->mesaj();
+    cout << "Greutatea barcii de pescuit: " << pbarca_p->getGreutate() << endl;// apel prin intermediul unui pointer catre un obiect al clasei de baza
+
+   
+    cout << "\n\tValorile greutatii(referinta catre obiect din clasa): " << endl;
+
+    pmonocicleta = &monocicleta;
+    pmonocicleta->mesaj();
+    cout << "Greutatea monocicletei: " << pmonocicleta->getGreutate() << endl;
+
+    pauto = &automob;
+    pauto->mesaj();
+    cout << "Greutatea automobilului: " << pauto->getGreutate() << endl;
+
+    pcam = &cam;
+    pcam->mesaj();
+    cout << "Greutatea camionului: " << pcam->getGreutate() << endl;
+
+    pbarca_p = &barca_p;
+    pbarca_p->mesaj();
+    cout << "Greutatea barcii de pescuit: " << pbarca_p->getGreutate() << endl;
+    
+    return 0;
+}
+
+
+
+PROBLEMA 3
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Să se scrie un program C++ în care se defineşte o clasă Militar cu o metodă publică virtuală
+sunt_militar( ) care indică apartenenţa la armată. Derivaţi clasa Militar pentru a crea clasa
+Soldat şi clasa Ofiter. Derivaţi mai departe clasa Ofiter pentru a obtine clasele SubLocotenent,
+Locotenent, Capitan, Maior, Colonel, General. Redefiniti metoda sunt_militar( ) pentru a
+indica gradul militar pentru fiecare clasa specifica. Instantiati fiecare clasa Soldat,
+Locotenent,...,General, si apelati metoda sunt_militar( ).
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+#define MAX 25
+
+class Militar { //clasa de baza Militar
+
+protected:
+        char nume[MAX];
+public:
+        virtual void sunt_militar() {
+                cout << "\nsunt militar!(clasa de baza)"<<endl;
+        } // metoda virtual
+        virtual void mesaj( )
+        {
+                cout << "\nMesaj din clasa de baza!" << endl;
+
+        }
+
+        Militar(const char* s)
+        {
+                strcpy(nume, s);
+        }
+
+};
+
+class Soldat :public Militar //clasa derivata Soldat din clasa Militar 
+{
+public: 
+        Soldat(const char* n) : Militar(n){};
+                void sunt_militar()
+                {
+                        cout << "\nSunt soldat!" << endl;
+
+                }
+        
+};
+
+class Ofiter:public Militar //clasa derivata Ofiter din clasa Militar 
+{
+public:
+        Ofiter(const char* n) : Militar(n) {};
+        void sunt_militar()
+        {
+                cout << "\nSunt ofiter!" << endl;
+
+        }
+
+};
+
+class SubLocotenent :public Ofiter //clasa derivata SubLocotenent din clasa Ofiter 
+{
+public:
+        SubLocotenent(const char* n) :Ofiter(n) {};
+        void sunt_militar()
+        {
+                cout << "\nSunt SubLocotenent!" << endl;
+
+        }
+
+};
+
+class Locotenent :public Ofiter  //clasa derivata Locotenent din clasa Ofiter
+{
+public:
+        Locotenent(const char* n) :Ofiter(n) {};
+        void sunt_militar()
+        {
+                cout << "\nSunt Locotenent!" << endl;
+
+        }
+
+};
+
+class Capitan:public Ofiter  //clasa derivata Capitan din clasa Ofiter
+{
+public:
+        Capitan(const char* n) :Ofiter(n) {};
+        void sunt_militar()
+        {
+                cout << "\nSunt Capitan!" << endl;
+
+        }
+
+};
+
+class Maior:public Ofiter //clasa derivata Maior din clasa Ofiter
+{
+public:
+        Maior(const char* n) :Ofiter(n) {};
+        void sunt_militar()
+        {
+                cout << "\nSunt Maior!" << endl;
+
+        }
+
+};
+
+class Colonel :public Ofiter   //clasa derivata Colonel din clasa Ofiter
+{
+public:
+        Colonel(const char* n) :Ofiter(n) {};
+        void sunt_militar()
+        {
+                cout << "\nSunt Colonel!" << endl;
+
+        }
+
+};
+
+class General :public Ofiter //clasa derivata General din clasa Ofiter
+{
+public:
+        General(const char* n) :Ofiter(n) {};
+        void sunt_militar()
+        {
+                cout << "\nSunt General!" << endl;
+
+        }
+
+};
+
+
+int main()
+{
+        //am instantiat obiecte si am redefinit metoda sunt_militar() pentru a indica gradul militar pentru fiecare clasa specifica
+        Militar ob("militar");
+        ob.sunt_militar();
+        Soldat ob1("soldat");
+        ob1.sunt_militar();
+        Ofiter ob2("ofiter");
+        ob2.sunt_militar(); 
+        SubLocotenent ob3("subLocotenent");
+        ob3.sunt_militar();
+        Locotenent ob4("locotenent");
+        ob4.sunt_militar();
+        Capitan ob5("capitan");
+        ob5.sunt_militar();
+        Maior ob6("maior");
+        ob6.sunt_militar();
+        Colonel ob7("colonel");
+        ob7.sunt_militar();
+        General ob8("general");
+        ob8.sunt_militar();
+        return 0;
+}
+
+
+
+
+PROBLEMA 4
+
+
+
+
+/*Declarati o clasa Animal, care va contine o metoda pur virtuala, respira() si doua metode
+virtuale manaca() si doarme().Derivati in mod public o clasa Caine si alta Peste, care vor
+defini metoda pur virtuala, iar clasa Caine va redefini metoda mananca(), iar Peste metoda
+doarme().Instantiati obiecte din cele doua clase si apelati metodele specifice.Definiti apoi un
+tablou de tip Animal, care va contine obiecte din clasele derivate, daca e posibil.Daca nu,
+gasiti o solutie adecvata.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+#define MAX 20
+const int n = 5;
+class Animal
+{
+protected:
+        char nume[MAX];
+public:
+
+        virtual void respira() = 0; // metoda virtuala pura
+        //virtual void mananca();
+        //virtual void doarme();
+        Animal(const char *s)
+        {
+                strcpy(nume, s);
+        }
+        
+        virtual void mananca()
+        {
+                cout << "\nMetoda virtuala mananca()\n";
+        }
+
+        virtual void doarme()
+        {
+                cout << "\nMetoda virtuala doarme()\n";
+        }
+        
+};
+
+class Caine :public Animal
+{
+        //char* nc;
+public:
+        Caine(const char* n) :Animal(n) {
+        
+        };
+        void respira() // metoda pur virtuala definita
+
+        {
+                cout << "animalul " << nume << " respira"<<endl;
+        }
+        void mananca()
+        {
+                cout << "animalul " << nume << " mananca " << endl;
+
+        }
+        
+};
+
+class Peste :public Animal
+{
+        //char* np;
+public:
+        Peste(const char* n) :Animal(n) {
+                //np = new char[strlen(n) + 1];
+                //strcpy(np, n);
+
+        };
+
+        void respira() // metoda pur virtuala definita
+
+        {
+                cout << "animalul " << nume << " respira" << endl;
+        }
+        void doarme()
+        {
+                cout << "animalul " << nume << " doarme " << endl;
+
+        }
+
+};
+
+int main()
+{
+        Animal* sptrs[n];//tablou de pointeri CB- voi folosi upcasting
+        sptrs[0] = new Caine("labrador");//upcasting
+        sptrs[1] = new Peste("somon");
+        sptrs[2] = new Caine("shiba");
+        sptrs[3] = new Peste("pastrav");
+        sptrs[4] = new Peste("peste");
+        for (int i = 0; i < 3; i++)
+                sptrs[i]->mananca();
+        for (int i = 3; i < 5; i++)
+
+        {
+                sptrs[i]->doarme();
+                delete sptrs[i];
+        }
+        return 0;
+
+}
+
+
+
+PROBLEMA 5
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Definiti o clasa abstracta care contine 3 declaratii de metode pur virtuale pentru concatenarea,
+intreteserea a doua siruri de caractere si inversarea unui sir de caractere primit ca parametru. O 
+subclasa implementeaza corpurile metodelor declarate in clasa de baza. Instantiati clasa
+derivata si afisati rezultatele aplicarii operatiilor implementate in clasa asupra unor siruri de 
+caractere citite de la tastatura. Examinati eroarea data de incercarea de a instantia clasa de 
+baza. 
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+#define MAX 20
+
+class Abstract {
+public:
+    char atr1[MAX];
+    char atr2[MAX]; //atribute publice
+    void setDate(char* x, char* y) //setteri pt cele doua siruri de caractere
+    {
+        strcpy(atr1, x);
+        strcpy(atr2, y);
+    }
+    virtual void concat_s() = 0;
+    
+    virtual void inv_s() = 0;
+};
+class Derivata : public Abstract { //clasa derivata
+public:
+    char d[80]; 
+    void concat_s() { //functia de concatenare
+        strcat(atr1, atr2);
+        cout << "\nSirul concatenat este: " << atr1;
+        cout << endl;
+    }
+    
+
+    void inv_s() //functia de inversare
+    {
+
+        int n;
+        n= strlen(atr1);
+        for (int i = 0;2* i <= n - 1; i++)
+        {
+            char aux = atr1[i];
+            atr1[i] = atr1[n - i - 1];
+            atr1[n - i - 1] = aux;
+        }
+        cout << "\nSirul inversat este:" << atr1 << endl;
+    }
+};
+
+int main()
+{
+    char sc1[20], sc2[20];
+    cout << "\nIntroduceti primul sir: "<<endl;
+    cin >> sc1; //am citit primul sir de caractere
+    cout << "\nIntroduceti al doilea sir: "<<endl;
+    cin >> sc2; //am citit al doilea sir de caractere
+    Derivata ob_derivat; //obiect din clasa derivata
+    ob_derivat.setDate(sc1, sc2);
+    ob_derivat.concat_s();
+    ob_derivat.inv_s();
+    return 0;
+}
+
+
+
+PROBLEMA 6
+
+
+
+//Rad Amalia si Batinas Claudia, Grupa 2112, Seria A//
+/*Definiti o clasa numita Record care stocheaza informatiile aferente unei melodii (artist, titlu,
+durata). O clasa abstracta (Playlist) contine ca atribut privat un pointer spre un sir de obiecte
+de tip inregistrare. In constructor se aloca memorie pentru un numar de inregistrari definit de
+utilizator. Clasa contine metode accesor si mutator pentru datele componente ale unei
+inregistrari si o metoda pur virtuala cu un parametru (abstracta), care poate ordona sirul de
+inregistrari dupa un anumit criteriu codat in valoarea intreaga primita ca parametru
+(1=ordonare dupa titlu, 2=ordonare dupa artist, 3=ordonare dupa durata). Intr-o alta clasa
+(PlaylistImplementation) derivata din Playlist se implementeaza corpul metodei abstracte de
+sortare.
+In functia main( ), sa se instantieze un obiect din clasa PlaylistImplementation si apoi sa se
+foloseasca datele si metodele aferente.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include<string.h>
+using namespace std;
+const int dim = 30;
+
+class Record {
+private:
+        char artist[dim];
+        char titlu[dim];
+        int minute;
+        int secunde;
+public:
+        void setArtist(char* a)
+        {
+                strcpy(artist, a);
+        }
+        void setTitlu(char* t)
+        {
+                strcpy(titlu, t);
+        }
+        void setMinute(int min)
+        {
+                minute = min;
+        }
+        void setSecunde(int sec)
+        {
+                secunde = sec;
+        }
+        char* getArtist()
+        {
+                return artist;
+        }
+        char* getTitlu()
+        {
+                return titlu;
+        }
+        int getMinute()
+        {
+                return minute;
+        }
+        int getSecunde()
+        {
+                return secunde;
+        }
+
+};
+class Playlist {//clasa abstracta
+protected:
+        Record* r;
+        int n;
+public:
+        Playlist(int n)//constructor cu un parametru
+        {
+                this->n = n;
+                r = new(std::nothrow)Record[n];
+        }
+        void citire()
+        {
+                char a[dim], t[dim];
+                int min, sec, i;
+                for (i = 0; i < n; i++)
+                {
+                        cout << "\nPiesa " << i + 1 << "\n";
+                        cout << "\nArtist: ";
+                        cin >> a;
+                        r[i].setArtist(a);
+                        cout << "\nTitlu: ";
+                        cin >> t;
+                        r[i].setTitlu(t);
+                        cout << "\nDurata: ";
+                        cout << "\nMinute: ";
+                        cin >> min;
+                        r[i].setMinute(min);
+                        cout << "\nSecunde: ";
+                        cin >> sec;
+                        r[i].setSecunde(sec);
+
+                }
+        }
+        void afisarea()
+        {
+                int i;
+                for (i = 0; i < n; i++)
+                {
+                        cout << "\nPiesa: " << i + 1 << "\n";
+                        cout << "\nArist: " << r[i].getArtist();
+                        cout << "\nTitlu: " << r[i].getTitlu();
+                        cout << "\nDurata: ";
+                        cout << "\nMinute: " << r[i].getMinute();
+                        cout << "\nSecunde: " << r[i].getSecunde();
+                }
+        }
+        virtual void ordonare(int h, int n) = 0;//metoda pur virtuala
+};
+class PlaylistImplementation :public Playlist //clasa derivata din clasa Playlist
+{
+public:
+        PlaylistImplementation(int n) :Playlist(n) { };
+        void ordonare(int h, int n)//toate ordonarile sunt crescatoare
+        {
+                switch (h)
+                {
+                case 1: {
+                        char k[dim], l[dim];
+                        int i, j;
+                        cout << "\nOrdonarea dupa titlu: ";
+                        Record aux;
+                        for (i = 0; i < n - 1; i++)
+                                for (j = i + i; j < n; j++) {
+                                        strcpy(k, r[i].getTitlu());
+                                        strcpy(l, r[j].getTitlu());
+                                        if (strcmp(k, l) > 0) {
+                                                aux = r[i];
+                                                r[i] = r[j];
+                                                r[j] = aux;
+                                        }
+
+                                }
+                        break;
+                }
+                case 2: {
+                        cout << "\nOrdonare dupa artist: " << endl;
+                        char k[dim], l[dim];
+                        int i, j;
+                        Record aux;
+                        for (i = 0; i < n - 1; i++)
+                                for (j = i + i; j < n; j++) {
+                                        strcpy(k, r[i].getArtist());
+                                        strcpy(l, r[j].getArtist());
+                                        if (strcmp(k, l) > 0) {
+                                                aux = r[i];
+                                                r[i] = r[j];
+                                                r[j] = aux;
+
+                                        }
+                                }
+                        break;
+                }
+                case 3: {
+                        int m1, m2, s1, s2;
+                        int i, j;
+                        Record aux;
+                        cout << "\nOrdonare dupa durata: " << endl;
+                        for (i = 0; i < n - 1; i++)
+                                for (j = i + 1; j < n; j++)
+                                {
+                                        m1 = r[i].getMinute();
+                                        m2 = r[j].getMinute();
+                                        s1 = r[i].getSecunde();
+                                        s2 = r[j].getSecunde();
+                                        if (m1 > m2)
+                                        {
+                                                aux = r[i];
+                                                r[i] = r[j];
+                                                r[j] = aux;
+
+                                        }
+                                        else if (m1 == m2)
+                                        {
+                                                if (s1 > s2)
+                                                {
+                                                        aux = r[i];
+                                                        r[i] = r[j];
+                                                        r[j] = aux;
+                                                }
+                                        }
+                                }
+                        break;
+                }
+
+
+                }
+        }
+};
+int main()
+{
+        int n;
+        cout << "\nIntroduceti numarul de inregistrari: ";
+        cin >> n;
+        PlaylistImplementation ob(n);
+        ob.citire();
+        ob.afisarea();
+        cout << "\n";
+        int h;
+        cout << "\nAlegeti o optiune: 1-Ordonare dupe titlu, 2-Ordonare dupa artist,3-Ordonare dupa durata: ";
+        cin >> h;
+        ob.ordonare(h, n);
+        ob.afisarea();
+        return 0;
+}

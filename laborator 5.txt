@@ -1,0 +1,645 @@
+PROBLEMA 1
+
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Să se scrie o aplicaţie C/C++ care foloseşte o structură de date cu numele Scerc care conţine 
+raza ca şi o variabilă de tip întreg. Într-un program C/C++, declaraţi două variabile c1, c2 de 
+tip Scerc şi calculaţi aria şi circumferinţa lor pentru valori ale razei introduse de la tastatură. 
+Aceleaşi cerinţe vor fi implementate în aceiasi aplicaţie folosind o clasă numită Cerc cu 
+atributul raza de tip private, clasă ce va conţine pe lângă metodele de calcul ale ariei şi 
+perimetrului un constructor explicit cu parametru, un destructor. Introduceţi in clasă o metodă 
+de tip accesor, getRaza(), care permite accesul la data privată raza si pe care sa o folositi 
+pentru a afisa in main( ) raza obiectelor. 
+*/
+
+#include <iostream>
+using namespace std;
+#include "Scerc.h"
+#include "Cerc.h"
+
+int main()
+{
+        int r;
+        cout << "\nStructuri\n";
+        Scerc c1, c2;
+
+        cout << "\nIntrodu raza c1: ";
+        cin >> c1.raza;
+        cout << "\nAria c1= " << ar_str(c1);
+        cout << "\nPerimetru c1= " << per_str(c1);
+
+        cout << "\nIntrodu raza c2: ";
+        cin >> c2.raza;
+        cout << "\nAria c1= " << ar_str(c2);
+        cout << "\nPerimetru c1= " << per_str(c2);
+
+        cout << "\n Clasa \n";
+
+        Cerc cc1(2), cc2(3);
+        r = cc1.getRaza();
+        cout << "\n Raza cc1=" << r;
+        cout << "\n Aria cc1 e:" << cc1.calcA();
+        cout << "\n Perim cc1 e:" << cc1.calcP();
+
+        r = cc2.getRaza();
+        cout << "\n Raza cc2=" << r;
+        cout << "\n Aria cc2 e:" << cc2.calcA();
+        cout << "\n Perim cc2 e:" << cc2.calcP();
+
+        Cerc* cptr;
+        cptr = &cc1;
+        cout << "\n Aria cc1 cu pointer e:" << cptr->calcA();
+        Cerc& refcc2 = cc2;
+        cout << "\n Perim cc2 cu pointer e:" << refcc2.calcP();
+}
+
+
+PROBLEMA 2
+
+
+
+
+
+/*
+Batinas Claudia,Florin Stan gr 2112 - Să se definească o clasă numită myString (într-un fişier numit strClass.h) care să fie compusă 
+din metodele specifice care efectuează următoarele operaţii pe şiruri de caractere:
+- determină lungimea şirului primit la intrare. 
+- determină ultima poziţie de apariţie a unui anumit caracter din şirul de intrare.
+- returnează şirul primit la intrare, scris cu caractere majuscule.
+- returnează şirul primit la intrare, scris cu caractere minuscule.
+- returnează numărul de apariţii ale unui anumit caracter din şirul primit.
+*/
+
+//fisier Header
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+class myString
+{
+        
+        
+public:
+        char sir[30];
+        void citire(char s[30]);
+        void lungime(char s[30]);
+        void ultima_poz(char s[30]);
+        void majuscula(char s[30]);
+        void minuscula(char s[30]);
+        void nr_aparitii(char s[30]);
+
+};
+
+void myString::citire(char s[30])
+{
+        cout << "\nIntroduceti sirul:";
+        cin.get(s, 30);
+
+
+}
+void myString::lungime(char s[30])
+{
+        int lung = 0;
+        lung = strlen(s);
+        cout << "\nLungimea este: " << lung;
+
+}
+void myString::ultima_poz(char s[30])
+{
+        int poz;
+        char c;
+        cout << "\nIntroduceti caracterul: ";
+        cin >> c;
+        for (int i = 0; i < 30; i++)
+        {
+                if (s[i] == c)
+                        poz = i;
+        }
+        cout << "\nPozitia pe care se gaseste caracterul: " << poz;
+}
+
+ void myString::majuscula(char s[30])
+{
+        int n = strlen(s);
+        for (int i = 0; i < n; i++)
+                cout << (char)toupper(s[i]);
+        cout << endl;
+
+}
+
+ void myString::minuscula(char s[30])
+{
+        int n = strlen(s);
+        for (int i = 0; i < n; i++)
+                cout << (char)tolower(s[i]);
+        cout << endl;
+
+}
+
+
+ void myString::nr_aparitii(char s[30])
+{
+         int k = 0;
+         char c;
+         cout << "\nIntroduceti caracterul: ";
+         cin >> c;
+         for (int i = 0; i < 30; i++)
+         {
+                 if (s[i] == c)
+                         k++;
+         }
+         cout << "\nNr de aparitii al elementului este: " << k;
+}
+//end fisier Header
+
+
+//main
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string.h>
+#include "strClass.h"
+
+
+
+
+using namespace std;
+
+int main()
+{
+        char s[30];
+         myString n;
+         n.citire(s);
+        n.lungime(s);
+         n.ultima_poz(s);
+         n.majuscula(s);
+         n.minuscula(s);
+         n.nr_aparitii(s);
+
+}
+
+
+PROBLEMA 3
+
+
+
+
+
+/*
+Batinas Claudia gr 2112 -  Să se scrie programul care citeşte de la tastatură un şir de maxim 10 caractere şi care, pe baza 
+clasei implementate anterior, efectuează asupra şirului de intrare operaţiile definite în cadrul 
+clasei.
+*/
+
+//fisier Header
+/*
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+class myString
+{
+
+
+public:
+    char sir[10];
+    void citire(char s[11]);
+    void lungime(char s[11]);
+    void ultima_poz(char s[11]);
+    void majuscula(char s[11]);
+    void minuscula(char s[11]);
+    void nr_aparitii(char s[11]);
+
+};
+
+void myString::citire(char s[11])
+{
+    cout << "\nIntroduceti sirul:";
+    cin.get(s, 11);
+
+
+}
+void myString::lungime(char s[11])
+{
+    int lung = 0;
+    lung = strlen(s);
+    cout << "\nLungimea este: " << lung;
+
+}
+void myString::ultima_poz(char s[11])
+{
+    int poz;
+    char c;
+    cout << "\nIntroduceti caracterul: ";
+    cin >> c;
+    for (int i = 0; i < 10; i++)
+    {
+        if (s[i] == c)
+            poz = i;
+    }
+    cout << "\nPozitia pe care se gaseste caracterul: " << poz;
+}
+
+void myString::majuscula(char s[11])
+{
+    int n = strlen(s);
+    for (int i = 0; i < n; i++)
+        cout << (char)toupper(s[i]);
+    cout << endl;
+
+}
+
+void myString::minuscula(char s[11])
+{
+    int n = strlen(s);
+    for (int i = 0; i < n; i++)
+        cout << (char)tolower(s[i]);
+    cout << endl;
+
+}
+
+
+void myString::nr_aparitii(char s[11])
+{
+    int k = 0;
+    char c;
+    cout << "\nIntroduceti caracterul: ";
+    cin >> c;
+    for (int i = 0; i < 10; i++)
+    {
+        if (s[i] == c)
+            k++;
+    }
+    cout << "\nNr de aparitii al elementului este: " << k;
+}
+*/
+
+
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string.h>
+#include "strClass.h"
+
+
+
+
+using namespace std;
+
+int main()
+{
+    char s[11];
+    myString n;
+    n.citire(s);
+    if (strlen(s) > 10 || strlen(s) < 0)
+    {
+        cout << "\nDimensiunea sirului este gresita!";
+        return 1;
+    }
+
+    n.lungime(s);
+    n.ultima_poz(s);
+    n.majuscula(s);
+    n.minuscula(s);
+    n.nr_aparitii(s);
+
+}
+
+
+PROBLEMA 4
+
+
+
+
+/*Batinas Claudia gr 2112 - Să se scrie programul care implementează clasa Numar cu un atribut de tip int val şi care, în
+cadrul funcţiei main(), declară un obiect de tipul clasei şi apoi un pointer la acesta, prin
+intermediul cărora se va afişa pe ecran rezultatul adunării a două numere de tip Numar cu
+valorile preluate de la tastatură in cadrul unor obiecte Numar. Implementati metoda int
+suma_nr(Numar) care realizeaza suma în cadrul clasei şi o returneaza ca un int, metoda care
+insumeaza cele doua obiecte (curent si parametru). Implementati metoda in cadrul clasei si
+alta metoda cu acelas scop, dar nume diferit, in afara clasei.*/
+
+
+//fisier Header
+/*
+class Numar {
+
+public:
+        int suma_nr_ob(int x, int y)
+        {
+                return (x + y);
+        }
+        int suma_nr_po(int, int);
+};
+int Numar::suma_nr_po(int x, int y)
+{
+        return(x + y);
+}
+*/
+
+
+#include<iostream>
+
+#include "Numar1.h"
+
+using namespace std;
+
+int main()
+{
+        class Numar n, * p = NULL;
+        int x, y;
+
+        cout << "Introduceti x: ";
+        cin >> x;
+        cout << "Introduceti y: ";
+        cin >> y;
+
+        cout << "\nSuma numerelor1 : " << n.suma_nr_ob(x, y);
+        cout << "\nSuma numerelor2 : " << p->suma_nr_po(x, y);
+}
+
+
+
+PROBLEMA 5
+
+
+
+/*Batinas Claudia  gr 2112 - Să se definească o clasă care implementează metodele :
+-int plus(int x, int y), care returnează suma valorilor primite la apelul metodei;
+-int minus(int x, int y), care returnează diferenta valorilor primite la apelul metodei;
+-int inmultit(int x, int y), care returnează produsul valorilor primite la apelul metodei;
+-float impartit(int x, int y), care returnează catul valorilor primite la apelul metodei;
+şi apoi să se scrie aplicaţia care utilizează această clasă.Considerati si cazul in care in cadrul
+clasei aveti atributele de tip int x si y, caz in care metodele nu vor mai avea parametrii.
+Observaţie: În cazul împărţirii, trebuie verificată validitatea operaţiei(împărţitor diferit de
+zero).În cazul în care operaţia este imposibilă, trebuie afişat un mesaj de eroare.*/
+
+
+//fisier header
+/*#include<iostream>
+using namespace std;
+
+class Operatii {
+
+public:
+
+        int plus(int x, int y)
+        {
+                return (x + y);
+        }
+
+        int minus(int x, int y)
+        {
+                return (x - y);
+        }
+
+        int inmultit(int x, int y)
+        {
+                return (x * y);
+        }
+
+        float impartit(int x, int y);
+};
+float Operatii::impartit(int x, int y) {
+        
+        if (y == 0)
+        {
+                cout << "Impartirea nu poate avea loc!";
+                return 1;
+                
+        }
+        else
+        {
+                return(float) (x / y);
+        }
+}
+
+*/
+
+
+#include<iostream>
+#include"Calcule.h"
+
+using namespace std;
+
+
+int main()
+{
+        int x, y;
+        class Operatii n;
+
+
+        cout << "Introduceti x:";
+        cin >> x;
+
+        cout << "Introduceti y:";
+        cin >> y;
+
+        cout << "Suma numerelor este: " << n.plus(x, y) << endl;
+        cout << "Diferenta numerelor este: " << n.minus(x, y) << endl;
+        cout << "Inmultirea numerelor este:" << n.inmultit(x, y) << endl;
+        cout << "Impartirea numerelor este: " << n.impartit(x, y) << endl;
+        return 0;
+}
+
+
+
+
+PROBLEMA 6
+
+
+
+
+/*Batinas Claudia gr 2112 - Să se creeze o clasă care să modeleze numerele complexe. Scrieţi un program care utilizează
+această clasă si defineste doua obiecte afisand caracteristicile obiectelor si rezultatele
+operatiilor definite (Folositi exemplul 3 cu rezultat in obiectul curent).*/
+
+//fisier header
+/*
+#include<math.h>
+class Complex {
+        double re, im;
+public:
+        Complex(double x = 0.0, double y = 0.0) {
+                re = x;
+                im = y;
+        }
+        double moduc() {
+                return sqrt(re * re + im + im);
+        }
+        void setRe(double real) {
+                re = real;
+        }
+        double getRe() {
+                return re;
+        }
+        void setIm(double imaginar) {
+                im = imaginar;
+        }
+        double getIm() {
+                return im;
+        }
+        void ad_complex(Complex b) {
+                re += b.re;
+                im += b.im;
+        }
+};
+*/
+#include<iostream>
+#include"Nr_Complex.h"
+
+using namespace std;
+
+int main()
+{
+        Complex ob1, ob2;
+        double auxiliar;
+
+        cout << "\nIntroduceti partea reala a primului obiect: ";
+        cin >> auxiliar;
+        ob1.setRe(auxiliar);
+
+        cout << "\nIntroduceti partea imaginara a primului obiect: ";
+        cin >> auxiliar;
+        ob1.setIm(auxiliar);
+        cout << "\nIntroduceti partea reala a celui de-al doilea obiect: ";
+        cin >> auxiliar;
+        ob2.setRe(auxiliar);
+        cout << "\nIntroduceti partea imaginara a celui de-al doilea obiect: ";
+        cin >> auxiliar;
+        ob2.setIm(auxiliar);
+        ob1.ad_complex(ob2);
+        cout << "\nSuma partilor reale ale obiectelor este: " << ob1.getRe();
+        cout << "\nSuma partilor imaginare a obiectelor este: " << ob1.getIm();
+
+        return 0;
+}
+
+
+
+
+PROBLEMA 8
+
+
+
+/*Batinas Claudia gr 2112 - Pornind de la clasa Complex, ex.4, să se implementeze operațiile de adunare, scădere,
+înmulțire și împărțire pentru numere complexe prin metode corespunzătoare implementate la
+alegere în clasă și/sau în afara ei. Testați aceste metode prin instanțierea unor obiecte.
+Metodele vor returna obiecte de tip Complex si in main() vor fi afisate rezultatele folosind
+metode accesor.*/
+
+
+
+/*
+ #include <iostream>
+
+using namespace std;
+
+class Complex
+
+{
+
+private:
+        double re, im;
+
+public:
+
+        void setRe(double x)
+        {
+                re = x;
+        }
+
+        void setIm(double x)
+        {
+                im = x;
+        }
+
+        double getRe()
+        {
+                return re;
+        }
+
+        double getIm()
+        {
+                return im;
+        }
+
+        Complex sum(Complex c);
+        Complex difference(Complex c);
+        Complex multi(Complex c);
+        Complex div(Complex c);
+
+};
+Complex Complex::sum(Complex c) {
+
+        Complex rez;
+
+        rez.re = (re + c.re);
+        rez.im = (im + c.im);
+        return rez;
+
+}
+Complex Complex::difference(Complex c)
+{
+        Complex rez;
+
+        rez.re = (re - c.re);
+        rez.im = (im - c.im);
+        return rez;
+
+}
+Complex Complex::multi(Complex c)
+{
+        Complex rez;
+
+        rez.re = (re * c.re);
+        rez.im = (im * c.im);
+        return rez;
+
+}
+Complex Complex::div(Complex c)
+{
+        Complex rez;
+
+        rez.re = (re / c.re);
+        rez.im = (im / c.im);
+
+        return rez;
+}
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include <string.h>
+#include "Complex.h"
+
+using namespace std;
+int main()
+{
+        Complex nr_compa;
+        Complex nr_compb;
+        int p_rea=0, p_reb=0, p_ima=0, p_imb=0;
+        cout << "\Partea reala a primului nr: ";
+        cin >> p_rea; //am citit partea reala a primului nr
+        cout << "\Partea imaginara a primului nr: ";
+        cin >> p_ima;  //am citit partea imaginara a primului nr
+        cout << "\Partea reala a celui de-al doilea nr: ";
+        cin >> p_reb; //am citit artea reala a celui de - al doilea nr
+        cout << "\Partea imaginara a celui de-al doilea nr: ";
+        cin >> p_imb; //am citit partea imaginara a celui de-al doilea nr
+
+        nr_compa.setRe(p_rea);
+        nr_compa.setIm(p_ima);
+        nr_compb.setRe(p_reb);
+        nr_compb.setIm(p_imb);
+        
+        cout << "\nSuma partilor reale: " << nr_compa.sum(nr_compb).getRe();
+        cout << "\nSuma partilor imaginare: " << nr_compa.sum(nr_compb).getIm();
+        cout << "\nDiferenta partilor reale: "<< nr_compa.difference(nr_compb).getRe();
+        cout << "\nDiferenta partilor imaginare: " << nr_compa.difference(nr_compb).getIm();
+        cout << "\nProdusul partilor reale: " << nr_compa.multi(nr_compb).getRe();
+        cout << "\nProdusul partilor imaginare: " << nr_compa.multi(nr_compb).getIm();
+        cout << "\nCatul partilor reale: " << nr_compa.div(nr_compb).getRe();
+        cout << "\nCatul partilor imaginare: " << nr_compa.div(nr_compb).getIm();
+}

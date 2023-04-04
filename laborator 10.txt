@@ -1,0 +1,924 @@
+PROBLEMA 1
+
+
+
+/*
+Batinas Claudia gr 2112 - Implementaţi programul prezentat în exemplul 3 şi examinaţi eventualele erori date la 
+compilare daca exista prin eliminarea comentariilor. Modificaţi programul astfel încât să se 
+poată accesa din funcţia main( ), prin intermediul obiectului obiect_derivat, şi metodele 
+aduna( ) şi scade( ) din clasa de baza pastrand mostenirea de tip private.
+*/
+
+
+
+
+/*class Baza {
+protected:
+        int a, b;
+public:
+        Baza()
+        {
+                a = 1, b = 1;
+        }
+        void setA(int a) {
+                this->a = a;
+        }
+        void setB(int b) {
+                this->b = b;
+        }
+        int getA() {
+                return a;
+        }
+        int getB() {
+                return b;
+        }
+        int aduna() {
+                return a + b;
+        }
+        int scade() {
+                return a - b;
+        }
+};
+class Derivata : private Baza
+{
+public:
+        int inmulteste() {
+                return a * b;
+        }
+        int show1() {
+                cout << "\nClasa derivata";
+                return aduna(); //am returnat adunarea
+        }
+        int show2() {
+                cout << "\nClasa derivata";
+                return scade(); //am returnat scaderea
+        }
+};
+*/
+//main
+#include <iostream>
+using namespace std;
+#include "Baza_deriv.h"
+
+int main()
+{
+        Baza obiect_baza;
+
+        cout << "\nAfis din baza (val. initiale): " << obiect_baza.getA() << " " << obiect_baza.getB() << '\n';
+
+        cout << "\nSuma este (cu val. initiale, baza) = " << obiect_baza.aduna(); // corect aduna( ) e public
+        cout << "\nDiferenta este (cu val. initiale, baza) = " << obiect_baza.scade();//corect scade( ) e public
+
+        obiect_baza.setA(2);
+        obiect_baza.setB(3);
+
+        cout << "\nAfis din baza (modificat): " << obiect_baza.getA() << " " << obiect_baza.getB() << '\n';
+        cout << "\nSuma/Diferenta dupa setare= " << obiect_baza.aduna() << "/" << obiect_baza.scade() << '\n';
+
+        Derivata obiect_derivat;
+
+        cout << "\nProdusul este (din derivat cu val. initiale) = " << obiect_derivat.inmulteste() << '\n';// corect val. implicite
+        cout << "\nSuma este (din derivat cu val. initiale, baza) = " << obiect_derivat.show1() << '\n';
+        cout << "\nDiferenta este (din derivat cu val. initiale, baza) = " << obiect_derivat.show2() << '\n';
+
+        return 0;
+}
+
+
+
+PROBLEMA 3
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Să se implementeze o clasă de bază cu două atribute protected de tip întreg care conţine o
+metoda mutator pentru fiecare atribut al clasei, parametri metodelor fiind preluati in main() de
+la tastatura şi metode accesor pentru fiecare atribut care returneaza atributul specific. Să se
+scrie o a doua clasă, derivată din aceasta, care implementează operaţiile matematice
+elementare: +, -, *, / asupra atributelor din clasa de bază, rezultatele fiind returnate de metode.
+Să se scrie o a treia clasă, derivată din cea de-a doua, care implementează în plus o metoda
+pentru extragerea rădăcinii pătrate dintr-un număr ( mul, rezultat al operatiei * din prima clasa
+derivata) şi de ridicare la putere (atât baza (plus, rezultat al operatiei + din prima clasa
+derivata) cât şi puterea (minus, rezultat al operatiei - din prima clasa derivata) sunt trimişi ca
+parametri). Verificati apelul metodelor considerand obiecte la diferite ierarhii.
+
+*/
+
+#include <iostream>
+using namespace std;
+
+class Clasa
+{
+protected:
+        int a, b; //atribute protected
+public:
+        Clasa(int x, int y) //constructor cu 2 parametri
+        {
+                a = x;
+                b = y;
+        }
+        //setteri si getteri pentru cele 2 atribute protected
+        void setA(int x)
+        {
+                a = x;
+
+        }
+
+        int getA()
+        {
+                return a;
+        }
+        void setB(int y)
+        {
+                b = y;
+
+        }
+
+        int getB()
+        {
+                return b;
+        }
+};
+
+class Derivata :public Clasa //clasa derivata
+{
+public:
+        Derivata(int a, int b) :Clasa(a, b) {}; //constructor
+        double inmulteste() {
+                return a * b; //am realizat inmultirea
+        }
+
+        double imparteste() {
+                return (double)(a / b); //am realizat impartirea
+        }
+        
+
+        int aduna() {
+                return a + b; //am realizat adunarea
+        }
+
+
+
+        int scade() {
+                return a - b; //am realizat scaderea
+        }
+        
+
+};
+
+class Derivata1 : public Derivata
+{
+public:
+        Derivata1(int a, int b) :Derivata(a, b) {}; //constructor
+        double ext_radical()
+        {
+                double nr = 0.0;
+                nr = sqrt(inmulteste()); //am extras radicalul din rezultatul inmultirii
+                return nr;
+        }
+        double ridic_p()
+        {
+                double nr_r = 0.0;
+                nr_r = pow(aduna(), scade()); //am ridicat la putere rezultatul adunarii la rezultatul scaderii
+                return nr_r;
+        }
+};
+
+
+int main()
+{
+        int val, val1;
+        Clasa ob{1,1};
+
+        cout << "\nIntroduceti valoarea pentru primul numar: ";
+        cin >> val; //am citit prima valoarea
+        ob.setA(val);
+        cout << "\nIntroduceti valoarea pentru al doilea numar: ";
+        cin >> val1; //am citit ce-a da doua valoare
+
+        ob.setB(val1);
+        cout << "\nAfis din baza (val. initiale): " << ob.getA() << " " << ob.getB() << '\n'; //am afisat elementele din clasa de baza
+
+        Derivata o_d{val,val1}; //obiect din prima clasa derivata cu valori din clasa de baza
+        
+        //am afisat operatiile +,-,*,/
+        cout << "\nSuma este (cu val. initiale, baza) = " << o_d.aduna(); // corect aduna( ) e public
+        cout << "\nDiferenta este (cu val. initiale, baza) = " << o_d.scade();//corect scade( ) e public
+        cout << "\nProdusul este (cu val. initiale, baza) = " << o_d.inmulteste();
+        cout << "\nImpartirea este (cu val. initiale, baza) = " << o_d.imparteste();
+        
+        Derivata1 o_d1{ val,val1 };//obiect din ce-a doua clasa derivata cu valori din clasa de baza
+        cout << "\nExtragerea radicalului din rezultatul inmultirii este: " << o_d1.ext_radical();
+        cout << "\nRidicarea la putere a adunarii la scadere este: " << o_d1.ridic_p();
+        return 0;
+}
+
+
+
+PROBLEMA 4
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Definiţi o clasă numita Triangle care are 3 atribute protected pentru laturi si o metoda care 
+calculează perimetrul unui triunghi ale cărui laturi sunt citite de la tastatura (folosite de un 
+constructor adecvat) şi apoi o clasă derivata in mod public din Triangle, Triangle_extended,
+care în plus, calculează şi aria triunghiului. Folosind obiecte din cele doua clase apelati 
+metodele specifice. Verificati inainte de instantiere posibilitatea definirii unui triunghi.
+
+*/
+
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+class Triangle {
+protected:
+    int lat1,lat2,lat3; //atribute de tip protected
+    
+public:
+    Triangle(int l1, int l2, int l3) { //constructor cu 3 parametri
+        lat1 = l1;
+        lat2 = l2;
+        lat3 = l3;
+    }
+    int getPerim() {
+        return lat1 + lat2 + lat3; //getter pentru perimetru
+    }
+};
+
+
+class Triangle_extended :public Triangle {
+public:
+
+    Triangle_extended(int l1, int l2, int l3) :Triangle(l1, l2, l3) {}
+    double getAria() 
+    {
+        double perimetru=0.0, semiperimetru=0.0; //am initializat perimetrul si semiperimetrul
+        perimetru = getPerim();
+        semiperimetru = (double)perimetru / 2; //am calculat semiperimetrul
+        return sqrt(semiperimetru * (semiperimetru - lat1) * (semiperimetru - lat2) * (semiperimetru - lat3)); //am calculat aria triunghiului cu formula lui Heron
+    }
+};
+
+int main()
+{
+    int l1=0, l2=0, l3=0;
+    //am citit datele despre triunghi
+    cout << "\nIntroduceti laturile triunghiului: ";
+    cout << "\nPrima latura: ";
+    cin >> l1;
+    cout << "\nA doua latura: ";
+    cin >> l2;
+    cout << "\nA treia latura: ";
+    cin >> l3;
+
+    if (l1 <= 0 || l2 <= 0 || l3 <= 0 || l1 + l2 <= l3 || l1 + l3 <= l2 || l2 + l3 <= l1) //validare
+    {
+        cout << "\nDimensiunile laturilor nu au fost introduse corect!";
+        return 1;
+    }
+
+   Triangle tr(l1, l2, l3);
+   Triangle_extended tr_ext(l1, l2, l3);
+    cout << "\nPerimetrul este: " << tr.getPerim(); //am afisat perimetrul
+    cout << "\nAria este: " << tr_ext.getAria(); //am afisat aria
+    return 0;
+}
+
+
+
+PROBLEMA 5
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Adaugaţi în clasa derivată din programul anterior o metodă care calculează înalţimea 
+triunghiului. Apelati metoda folosind un obiect adecvat.
+*/
+
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+class Triangle {
+protected:
+    int lat1, lat2, lat3; //atribute de tip protected
+
+public:
+    Triangle(int l1, int l2, int l3) { //constructor cu 3 parametri
+        lat1 = l1;
+        lat2 = l2;
+        lat3 = l3;
+    }
+    int getPerim() {
+        return lat1 + lat2 + lat3; //getter pentru perimetru
+    }
+    double getInaltime()
+    {
+        //am verificat daca e triunghi isoscel
+        if (lat1 == lat2 && lat3 != lat2)
+        {
+            cout << "\nSe calculeaza inaltimea pentru un triunghi isoscel";
+            return sqrt(lat1 * lat1 - (lat3 / 2) * (lat3 / 2));
+        }
+        else if (lat1 == lat3 && lat1 != lat2)
+        {
+            cout << "\nTriunghiul este isoscel";
+            return sqrt(lat1 * lat1 - (lat2 / 2) * (lat2 / 2));
+
+        }
+        else if (lat2 == lat3 && lat2 != lat1)
+        {
+            cout << "\nTriunghiul este isoscel";
+            return sqrt(lat2 * lat2 - (lat1 / 2) * (lat1 / 2));
+        }
+
+        
+        //am verificat daca e triunghi echilateral
+        else if (lat1 == lat2 && lat2 == lat3)
+        {
+            cout << "\nTriunghiul este echilateral";
+            return lat1 * (sqrt(3) / 2);
+        }
+
+        //am verificat daca e triunghi dreptunghic
+        else if (lat2 * lat2 == lat1 * lat1 + lat3 * lat3)
+            {
+                cout << "\nTriunghiul este dreptunghic";
+                return (double)lat1 * lat3 / lat2;
+            }
+
+        else if (lat1 * lat1 == lat2 * lat2 + lat3 * lat3)
+            {
+                cout << "\nTriunghiul este dreptunghic";
+                return (double)lat2 * lat3 / lat1;
+            }
+
+        else if (lat3 * lat3 == lat1 * lat1 + lat2 * lat2)
+                    {
+                        cout << "\nTriunghiul este dreptunghic";
+                        return (double)(lat1 * lat2 / lat3);
+                    }
+
+    //am verificat daca e triunghi oarecare  
+   else if (lat1 > lat2 && lat1 > lat3)
+    {
+
+    cout << "\nTriunghiul este oarecare";
+        return  sqrt(((lat1 + lat2 + lat3) / 2) * ((lat1 + lat2 + lat3) / 2 - lat1) * ((lat1 + lat2 + lat3) / 2 - lat2) * ((lat1 + lat2 + lat3) / 2 - lat3)) * 2 / lat1;
+    }
+
+    else if (lat2 > lat3 && lat2 > lat1)
+        {
+            cout << "\nTriunghiul este oarecare";
+            return  sqrt(((lat1 + lat2 + lat3) / 2) * ((lat1 + lat2 + lat3) / 2 - lat1) * ((lat1 + lat2 + lat3) / 2 - lat2) * ((lat1 + lat2 + lat3) / 2 - lat3)) * 2 / lat2;
+        }
+    else if (lat3 > lat1 && lat3 > lat2)
+            {
+            cout << "\nTriunghiul este oarecare";
+                return sqrt(((lat1 + lat2 + lat3) / 2) * ((lat1 + lat2 + lat3) / 2 - lat1) * ((lat1 + lat2 + lat3) / 2 - lat2) * ((lat1 + lat2 + lat3) / 2 - lat3)) * 2 / lat3;
+            }
+}
+
+};
+
+
+class Triangle_extended :public Triangle {
+public:
+
+    Triangle_extended(int l1, int l2, int l3) :Triangle(l1, l2, l3) {}
+    double getAria()
+    {
+        double perimetru = 0.0, semiperimetru = 0.0; //am initializat perimetrul si semiperimetrul
+        perimetru = getPerim();
+        semiperimetru = (double)perimetru / 2; //am calculat semiperimetrul
+        return sqrt(semiperimetru * (semiperimetru - lat1) * (semiperimetru - lat2) * (semiperimetru - lat3)); //am calculat aria triunghiului cu formula lui Heron
+    }
+};
+
+int main()
+{
+    int l1 = 0, l2 = 0, l3 = 0;
+    //am citit datele despre triunghi
+    cout << "\nIntroduceti laturile triunghiului: ";
+    cout << "\nPrima latura: ";
+    cin >> l1;
+    cout << "\nA doua latura: ";
+    cin >> l2;
+    cout << "\nA treia latura: ";
+    cin >> l3;
+
+    if (l1 <= 0 || l2 <= 0 || l3 <= 0 || l1 + l2 <= l3 || l1 + l3 <= l2 || l2 + l3 <= l1) //validare
+    {
+        cout << "\nDimensiunile laturilor nu au fost introduse corect!";
+        return 1;
+    }
+
+    Triangle tr(l1, l2, l3);
+    Triangle_extended tr_ext(l1, l2, l3);
+    cout << "\nPerimetrul este: " << tr.getPerim(); //am afisat perimetrul
+    cout << "\nAria este: " << tr_ext.getAria(); //am afisat aria
+    cout << "\nInaltimea este: " << tr_ext.getInaltime(); //am afisat inaltimea
+    return 0;
+}
+
+
+
+PROBLEMA 6
+
+
+
+
+/*
+Batinas Claudia gr 2112 - Definiţi o clasă numită Forme care considera o figura geometrica cu un nume ca si atribut de 
+tip pointer la un sir de caractere. Clasa va contine un constructor fara parametrii, unul cu 
+parametrii, copy/move constructor si se va supraincarca operatorul de asignare. Clasa va avea
+si metode getter/setter si un destructor. Derivati in mod public o clasa Cerc care adauga un 
+atribut de tip int pentru raza si constructori adecvati considerand si atributele (nume, raza) si 
+o metoda getter pentru raza si alte metode care calculeaza aria si perimetrul cercului de raza r, 
+valoare introdusa in main( ) de la tastatura. Similar definiti o clasa Patrat si Dreptunghi care 
+permit determinarea ariei si perimetrului obiectelor specifice. Instantiati obiecte din clasele 
+derivate si afisati aria si perimetrul obiectelor. Datele specifice vor fi introduse de la tastatura.
+Definiti un obiect de tip Cerc cu parametrii care sa il copiati intr-un nou obiect clona la care sa 
+ii afisati atributele. Definiti un obiect de tip Patrat cu parametrii si altul fara parametrii. 
+Asignati celui fara parametrii obiectul instantiat cu parametrii si afisati atributele.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#define MAX 15
+
+
+using namespace std;
+
+
+class Forme
+{
+protected:
+        char* nume_forma;
+public:
+
+        Forme() //constructor
+        {
+                nume_forma = new char[MAX];
+                strcpy(nume_forma, "Necunoscut");
+        }
+        Forme(char* nume) // constructor cu 1 parametru
+        {
+                int l = strlen(nume);
+                nume_forma = new char[l];
+                strcpy(nume_forma, nume);
+        }
+
+        
+        Forme(const Forme& a) //Copy constructor
+        {
+                cout << "\nCopy constructor";
+                nume_forma = new char[strlen(a.nume_forma) + 1];
+                strcpy(nume_forma, a.nume_forma);
+                
+        }
+
+        //supraincarcarea operatorului de asignare
+        Forme& operator= (const Forme& a)
+        {
+                if (this == &a) return *this;
+                delete[] nume_forma;
+                nume_forma = new char[strlen(a.nume_forma) + 1];
+                strcpy(nume_forma, a.nume_forma);
+                cout << "\nAsignare a fost realizata cu succes";
+                return *this;
+        }
+
+        
+        Forme(Forme&& x) //constructor move
+        {
+                cout << "\nConstructor move";
+                strcpy(nume_forma, x.nume_forma);
+                strcpy(x.nume_forma, nullptr);
+                
+        }
+
+        void setNume(char nume[MAX])
+        {
+                strcpy(nume_forma, nume);
+        }
+        char* getNumeForma()
+        {
+                return nume_forma;
+        }
+        ~Forme()
+        {
+                cout << "\nDestructor";
+                delete[]nume_forma;
+        }
+};
+
+class Cerc : public Forme //clasa derivata Cerc
+{
+        int r;
+public:
+        Cerc() = default;
+        Cerc(int raza, char num[MAX])
+        {
+                strcpy(nume_forma, num);
+                r = raza;
+        }
+        int getRazaCerc()
+        {
+                return r;
+        }
+        double getPerimC()
+        {
+                double perimetru = 2 * 3.14 * 3.14;
+                return perimetru;
+        }
+        double ariaC()
+        {
+                double aria_c = (r * r) * 3.14;
+                return aria_c;
+        }
+};
+
+class Patrat : public Forme //clasa derivata Patrat
+{
+        double latura;
+public:
+        Patrat() = default;
+        Patrat(double lat, char nume[MAX])
+        {
+                strcpy(nume_forma, nume);
+                latura = lat;
+        }
+        double getLatura()
+        {
+                return latura;
+        }
+        double getPerimP()
+        {
+                double perim = 4 * latura;
+                return perim;
+        }
+        double ariaP()
+        {
+                double aria = latura * latura;
+                return aria;
+        }
+};
+
+class Dreptunghi : public Forme //clasa derivata Dreptunghi
+{
+        double lungime, latime;
+public:
+        Dreptunghi() = default;
+        Dreptunghi(double l1, double l2, char num[MAX])
+        {
+                strcpy(nume_forma, num);
+                lungime = l1;
+                latime = l2;
+        }
+        double getLungD()
+        {
+                return lungime;
+        }
+        double getLatimeD()
+        {
+                return latime;
+        }
+        double getPerimD()
+        {
+                double perim = 2 * (lungime + latime);
+                return perim;
+        }
+        double ariaD()
+        {
+                double aria = lungime * latime;
+                return aria;
+        }
+};
+int main()
+{
+        char forma[MAX];
+        int nr=0, raza;
+        double latura, lungime, latime;
+        
+        cout << "\nIntroduceti numarul de obiecte: ";
+        cin >> nr;
+        for (int i = 0; i < nr; i++)
+        {
+                cout << "\Forma obiectului este: " << i + 1 << ": ";
+                cin >> forma;
+                if (_stricmp(forma, "cerc") == 0)
+                {
+                        cout << "Introduceti raza cercului: ";
+                        cin >> raza;
+                        Cerc circle(raza, forma);
+                        cout << "\nNume: " << circle.getNumeForma();
+                        cout << "\nRaza: " << circle.getRazaCerc();
+                        cout << "\nPerimetrul: " << circle.getPerimC();
+                        cout << "\nAria: " << circle.ariaC();
+                }
+                else if (_stricmp(forma, "patrat") == 0)
+                {
+                        cout << "Introduceti latura patratului: ";
+                        cin >> latura;
+                        Patrat square(latura, forma);
+                        cout << "\nNume: " << square.getNumeForma();
+                        cout << "\nLungimea laturii: " << square.getLatura();
+                        cout << "\nPerimetrul: " << square.getPerimP();
+                        cout << "\nAria: " << square.ariaP();
+                }
+                else if (_stricmp(forma, "dreptunghi") == 0)
+                {
+                        cout << "Introduceti lungimea si latimea dreptunghiului: \n";
+                        cout << "Lungimea: ";
+                        cin >> lungime;
+                        cout << "Latimea: ";
+                        cin >> latime;
+                        Dreptunghi rectangle(lungime, latime, forma);
+                        cout << "\nNume: " << rectangle.getNumeForma();
+                        cout << "\nLungimea: " << rectangle.getLungD();
+                        cout << "\nLatimea: " << rectangle.getLatimeD();
+                        cout << "\nPerimetrul: " << rectangle.getPerimD();
+                        cout << "\nAria: " << rectangle.ariaD();
+                }
+                else
+                {
+                        cout << "\nForma invalida!";
+                        return 1;
+                }
+        }
+
+        cout << "\nIntroduceti datele unui cerc: \n";
+        cout << "\tNUME:";
+        cin >> forma;
+        cout << "\tRAZA:";
+        cin >> raza;
+        Cerc c1(raza, forma);
+        Cerc c2 = c1;//copiere
+        cout << "\nAtributele obiectului in care s-au copiat informatiile date sunt: ";
+        cout << "\nNume: " << c2.getNumeForma();
+        cout << "\nRaza: " << c2.getRazaCerc();
+
+        cout << "\nIntroduceti datele unui patrat: \n";
+        cout << "\tNUME: ";
+        cin >> forma;
+        cout << "\tLatura: ";
+        cin >> latura;
+        Patrat p1(latura, forma);
+        Patrat p2;
+        p2 = p1;//asignare
+        cout << "\nAtributele patratului caruia i s-au asignat informatiile date sunt: ";
+        cout << "\tNume: " << p2.getNumeForma();
+        cout << "\tLatura: " << p2.getLatura();
+        return 0;
+}
+
+
+
+
+PROBLEMA 7
+
+
+
+/*
+Batinas Claudia gr 2112 - Considerați o clasa de baza Cerc definita printr-un atribut protected raza, care are un
+constructor cu parametrii si o metoda care determina aria cercului. Considerați o alta clasa de
+baza Patrat cu un atribut protected latura similar clasei Cerc. Derivați un mod public clasa
+CercPatrat care are un constructor ce apelează constructorii claselor de baza si o metoda care
+verifica daca pătratul de latura l poate fi inclus in cercul de raza r. De asemenea clasa derivata
+determina si perimetrul celor doua figuri geometrice. Instanțiați un obiect din clasa derivata
+(datele introduse de la tastatura), determinați aria si perimetrul cercului si al pătratului. Afișați
+daca pătratul cu latura introdusa poate fi inclus in cercul de raza specificat.
+*/
+
+#include <iostream>
+using namespace std;
+
+
+class Cerc
+{
+protected:
+        int raza; //membru protected
+public:
+        Cerc(int r) //constructor cu un parametru
+        {
+                raza = r;
+        }
+        int getRaza() //getter pt raza
+        {
+                return raza;
+        }
+        double getAriaC() //geter pt arie
+        {
+                return 3.14 * raza * raza;
+        }
+};
+
+class Patrat
+{
+protected:
+        int latura; //membru protected
+public:
+        Patrat(int l) //constructor cu un parametru
+        {
+                latura = l;
+        }
+        int getLatura() //getter pt raza
+        {
+                return latura;
+        }
+        double getAriaP() //geter pt arie
+        {
+                return  latura * latura;
+        }
+};
+
+class CercPatrat :public Patrat, public Cerc
+{
+;
+public:
+        CercPatrat(int ra, int la) :Cerc(ra),Patrat(la) //constructor a clasei derivate
+        {
+                latura = la;
+                raza = ra;
+        }
+        void verifica() //functie care verifica daca se poate forma un dreptunghi in interiorul cercului
+        {
+                raza = getRaza();
+                latura = getLatura();
+                cout << "\nraza= " << getRaza();
+                cout << "\nlatura= " << getLatura();
+                if (latura > raza) //validare
+                {
+                        cout << "\nNu poate forma!";
+                        exit(1);
+                }
+                double aria_c = 0.0, aria_p = 0.0;
+                aria_c = getAriaC();
+                aria_p = getAriaP();
+                if (aria_p > aria_c) //validare
+                {
+                        cout << "\nNu poate forma!";
+                        exit(1);
+                }
+                else cout << "\nSe poate forma!";
+                cout << "\nAria cercului este: " << getAriaC(); //am afisat aria cercului
+                cout << "\nAria patratului este: " << getAriaP(); //am afisat aria patratului
+        }
+        void getPerimetru() //functie pentru calcularea perimetrului
+        {
+                double perim_c = 0.0, perim_p = 0.0;
+                perim_c = 2 * 3.14 * raza; //am calculat perimetrul cercului
+                perim_p = 4 * latura; //am calculat perimetrul patratului
+                cout << "\nPerimetrul cercului este: " << perim_c; //am afisat perimetrul cercului
+                cout << "\nPerimetrul patratului este: " << perim_p; //am afisat perimetrul patratului
+        }
+
+};
+
+
+int main()
+{
+        int raza = 0, latura = 0;
+        cout << "\nIntroduceti raza cercului: ";
+        cin >> raza;
+
+        cout << "\nIntroduceti latura patratului: ";
+        cin >> latura;
+
+        Patrat p1(latura); //obiectul din clasa Patrat
+        Cerc c1(raza); //obiectul din clasa Cerc
+        CercPatrat ob(raza, latura); //obiectul din clasa derivata CercPatrat
+        ob.verifica();
+        ob.getPerimetru();
+        return 0;
+}
+
+
+
+
+PROBLEMA 9
+
+
+
+
+/*Batinas Claudia gr 2112 - Să se definească clasa Student având ca date membre private: numele(pointer șir de caractere), note(pointer de
+tip întreg) și nr_note(int).Clasa mai conține un constructor cu parametri, un constructor de copiere / move, o
+metoda de supraîncărcare a operatorului de atribuire, o metodă de setare a notelor, o metodă de afișare a
+atributelor și un destructor.Să se instanțieze obiecte folosind constructorul cu parametri, un alt obiect ca si
+clona va fi obtinut folosind constructorul de copiere, afișând de fiecare data atributele obiectului creat.
+Realizați o operație de copiere a unui obiect în alt obiect, ambele fiind create in prealabil.Afișati rezultatul
+copierii.Analizati metodele utilizate.
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#define MAX 20
+using namespace std;
+
+#include<string.h>
+
+class Student {
+
+        char numele[15];
+        int* nota;
+        int nr_note;
+
+public:
+
+        Student(char nume[], int* po, int nr_n);
+        Student(Student& student1);
+    Student& operator=(Student& student2);
+        void setDate(char nume[], int* po, int nr_n);
+        void display();
+        ~Student(void);
+};
+Student::Student(char nume[], int* po, int nr_n) { //constructor cu 3 parametri
+
+        strcpy(numele, nume);
+        nr_note = nr_n;
+        nota = new int[nr_note];
+
+        for (int i = 0; i < nr_note; i++)
+                *(nota + i) = po[i];
+}
+Student::Student(Student& student1) { //Copy Constructor
+
+        cout << "\nCopy Constructor";
+        strcpy(numele, student1.numele);
+        nr_note = student1.nr_note;
+        nota = new int[nr_note];
+
+        for (int i = 0; i < nr_note; i++)
+                *(nota + i) = student1.nota[i];
+}
+Student& Student::operator=(Student& student2) { //supraincarcarea operatorului de atribuire
+        cout << "\nCopiere prin utilizarea supraincarcarii operatorului de atribuire!\n";
+        if (this != &student2)
+        {
+                strcpy(numele, student2.numele);
+                nr_note = student2.nr_note;
+                nota = new int[nr_note];
+
+                for (int i = 0; i < nr_note; i++)
+                        nota[i] = student2.nota[i];
+        }
+        return *this;
+}
+void Student::setDate(char nume[], int* po, int nr_n) { //setter pentru datele studentului
+        strcpy(numele, nume);
+        nota = po;
+        nr_note = nr_n;
+}
+void Student::display() { //am afisat notele
+        cout <<"\nNumele studentului este:" << numele;
+        cout << "\nAcesta a obtinut urmatoarele note:";
+        for (int i = 0; i < nr_note; i++)
+                cout << *(nota + i) << " ";
+        cout << endl;
+}
+Student::~Student(void) { //destructor
+        delete[]nota;
+}
+
+int main() {
+        int po[MAX];
+        int nr_n;
+        char nume_s[20];
+        
+        cout << "\nNumele studentului: ";
+        cin >> nume_s;
+
+        cout <<"\nNumarul de note al studentului: ";
+        cin >> nr_n;
+
+        cout <<"\nNotele :";
+        for (int i = 0; i < nr_n; i++)
+                cin >> *(po + i);
+
+        Student student1(nume_s, po, nr_n);//am instantiat un obiect cu constructorul cu parametrii
+        student1.display();
+
+        Student student2(student1);//instantiem obiectul 2 cu constructorul de copiere
+        cout << "\nNoul obiect cu aceleasi caracteristici: ";
+        student2.display();//creem un nou obiect pe care il initializam cu constructorul cu parametrii
+        cout << "\nNumele studentului: ";
+        cin >> nume_s;
+        cout << "\nNumarul de note a studentului:";
+        cin >> nr_n;
+        cout << "\nNotele studentului:";
+        for (int i = 0; i < nr_n; i++)
+                cin >> *(po + i);
+        Student student3(nume_s, po, nr_n);
+        student3.display();
+        cout << "\nOperatia de asignare intre obiectele create: ";
+        student3 = student1;
+        student3.display();
+        return 0;
+}

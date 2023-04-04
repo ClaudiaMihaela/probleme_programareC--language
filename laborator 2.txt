@@ -1,0 +1,629 @@
+PROBLEMA 1
+
+﻿/*
+Batinas Claudia gr 2112- Construiţi o funcţie recursivă care calculează Aranjamente de n luate cate k. Verificati rezultatul folosind si metoda bazata pe 
+factorial
+*/
+
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+const int dim = 20;
+int k = 0;
+int aranj(int* a, int n,int k1); //prototip de functie care calculeaza aranjamente de n luate cate k recursiv
+int factorial(int n); //prototip de functie care calculeaza factorialul
+
+int main() {
+
+    int a[dim];
+    int k1 = 0, n = 0, aranjamente = 0, aranjamente1 = 0, dif=0;
+    printf("\nIntroduceti n: ");
+    scanf("%d", &n);
+    printf("\nIntroduceti k: ");
+    scanf("%d", &k1);
+    aranjamente = aranj(a, n,k1);
+    printf("\nAranjamente calculate recursiv: %d", aranjamente); //am afisat pe ecran aranjamentele calculate in mod recursiv
+    dif = n - k1;
+    aranjamente1 = factorial(n) / factorial(dif);
+    printf("\nAranjamente calculate recursiv cu ajutorul factorialului: %d", aranjamente1); //am afisat pe ecran aranjamentele calculate in mod recursiv cu ajutorul factorialului
+    return 0;
+}
+
+int aranj(int* a, int n, int k1) { // functie care calculeaza aranjamente de n luate cate k in mod recursiv
+    if (k1 == 1) return n;
+    else { k++; return n * aranj(a, n - 1, k1 - 1); }
+}
+    
+int factorial(int n) { //functie care calculeaza factorialul
+    
+    if (n == 0) return 1;
+    else
+        return n * factorial(n - 1); 
+}
+
+
+PROBLEMA 10
+
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Considerați un tablou unidimensional de n (<=30) de valori întregi. Determinați în mod 
+recursiv și nerecursiv numărul de apariții în tablou ale unei valori întregi x cititite de la 
+tastatură.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define dim 30
+int k = 0;
+int cntElemX(int* a, int n,int x); //prototip de functie care calculeaza contorul numerelor egale cu x din tablou IN MOD RECURSIV
+int cntElemX1(int* a, int n, int x); //prototip de functie care calculeaza contorul numerelor egale cu x din tablou IN MOD NERECURSIV
+int main() {
+
+   
+    int a[dim], s, n,x=0,cnt=0, cnt1 = 0;
+    printf("Cititi dimensiunea tabloului ");
+    scanf(" %d", &n);
+    if (n > dim || n<=0)
+    {
+        printf("\nDimensiune gresita!"); //validarea dimensiunii tabloului
+        return 1;
+
+    }
+    for (int i = 0; i < n; i++)
+    {
+        printf("\ta[%d]= ", i);
+        scanf("%d", &a[i]); //am citit elementele tabloului unidim.
+
+    }
+    printf("\nIntroduceti numarul: ");
+    scanf("%d", &x); //am citit numarul pe care il vom cauta in tablou si pe care il vom contoriza de fiecare data cand il gasim
+    cnt = cntElemX(a, n, x);
+    printf("\nContorul numerelor egale cu x calculat recursiv este: %d", cnt); //am afisat pe ecran contorul calculat in mod recursiv
+    
+    
+    cnt1 = cntElemX1(a, n, x);
+    printf("\nContorul numerelor egale cu x calculat nerecursiv este: %d", cnt1); //am afisat pe ecran contorul calculat in mod nerecursiv
+
+    return 0;
+}
+
+int cntElemX(int* a, int n,int x) { // functie care calculeaza nr de aparitii al elementului x in tablou recursiv
+    if (n == 0) return 0;
+    else if (a[n - 1] ==x) { k++; return cntElemX(a, n - 1,x) + 1; }
+    else return cntElemX(a, n - 1,x);
+}
+
+int cntElemX1(int* a, int n, int x) // functie care calculeaza nr de aparitii al elementului x in tablou nerecursiv
+{
+    int contor = 0;
+    for (int i = 0; i < n; i++)
+        if (a[i] == x) contor++;
+    return contor;
+
+}
+
+
+PROBLEMA 11
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Considerați un număr n întreg pozitiv în baza 10 introdus de la tastatură. Folosind o funcție 
+recursivă convertiți valoarea n într-o altă bază de numerație 1<b<10 citită de la tastatură.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+int conversie(int n, int b); //prototip de functie care calculeaza conversia lui n in baza b
+
+int main() 
+{
+    int n, b,rez=0;
+    cout << "\nIntroduceti n: ";
+    cin >> n; //am citit n
+    cout << "\nIntroduceti baza: ";
+    cin >> b; //am citit b
+    rez = conversie(n, b);
+    cout << "\nNumarul " << n << " este egal cu " << rez << " in baza " << b; //am afisat rezultatul conversiei lui nin baza b
+    
+    return 0;
+}
+
+
+int conversie(int n, int b) //functie care calculeaza conversia lui n in baza b
+
+{
+    if (n == 0 || b == 10)
+        return n;
+
+    return (n % b) + 10 * conversie(n / b, b);
+}
+
+
+PROBLEMA 13
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Scrieți un program care să calculeze în mod recursiv și în mod nerecursiv valoarea seriei 
+armonice sn=1/1+1/2+1/3+…1/n, unde n este un număr natural, cu două funcții diferite.
+Apelați cele două funcții cu diferite valori ale lui n.
+
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+double suma_rec(int n); //prototip de functie pentru suma calculata in mod recursiv
+
+int main()
+{
+        int n;
+        double s=0,s1=0;
+        printf("\nIntroduceti n: ");
+        scanf("%d", &n); //am citit numarul n
+        for (int i = 1; i <= n; i++)
+        {
+                s = (double)s + double(1.0 / i); //am calculat suma in mod nerecursiv
+        }
+        printf("\nSuma calculata nerecursiv este: %lf", s); //am afisat suma calculata in mod nerecursiv
+        s1 = suma_rec(n);
+        printf("\nSuma calculata nerecursiv este: %lf", s1); //am afisat suma calculata in mod recursiv
+        return 0;
+}
+
+
+
+
+double suma_rec(int n) {//functie pentru suma calculata in mod recursiv
+        if (n == 0) return 0;
+        else return suma_rec(n - 1) + 1.0 / n; //suma calculata in mod recursiv
+}
+
+
+PROBLEMA 2
+
+
+
+﻿/*
+Batinas Claudia gr 2112- Construiţi o funcţie recursivă care calculează Combinari de n luate cate k. Verificati rezultatul folosind si metoda bazata pe
+factorial
+*/
+
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+const int dim = 20;
+int k = 0;
+int aranj(int* a, int n, int k1); //prototip de functie care calculeaza aranjamente de n luate cate k recursiv
+int factorial(int n); //prototip de functie care calculeaza factorialul
+
+int main() {
+
+    int a[dim];
+    int k1 = 0, n = 0, combinari = 0, combinari1 = 0, dif = 0;
+    printf("\nIntroduceti n: ");
+    scanf("%d", &n);
+    printf("\nIntroduceti k: ");
+    scanf("%d", &k1);
+    combinari = aranj(a, n, k1)/factorial(k1);
+    printf("\nAranjamente calculate recursiv: %d",combinari ); //am afisat pe ecran combinarile calculate in mod recursiv
+    dif = n - k1;
+    combinari1 = factorial(n) /(factorial(k1)* factorial(dif));
+    printf("\nAranjamente calculate recursiv cu ajutorul factorialului: %d", combinari1); //am afisat pe ecran combinarile calculate in mod recursiv cu ajutorul factorialului
+    return 0;
+}
+
+int aranj(int* a, int n, int k1) { // functie care calculeaza aranjamente de n luate cate k in mod recursiv
+    if (k1 == 1) return n;
+    else { k++; return n * aranj(a, n - 1, k1 - 1); }
+}
+
+int factorial(int n) { //functie care calculeaza factorialul
+
+    if (n == 0) return 1;
+    else
+        return n * factorial(n - 1);
+}
+
+PROBLEMA 3
+
+
+
+
+//Batinas Claudia gr 2112 -Calculul celui mai mare divizor comun a dou  numere folosind o func ie recursiv .
+
+
+
+#include <iostream>
+
+using namespace std;
+
+int cmmdc(int a, int b);
+
+int main()
+{
+        int a, b;
+        cout << "Cititi a si b: ";
+        cin >> a >> b;
+        cout << "Cel mai mare divizor comun dintre a si b este: " << cmmdc(a, b);
+
+
+        return 0;
+}
+
+
+int cmmdc(int a, int b)
+{
+        if (a == b) return a;
+        if ((a == 0) ||  (b == 0)) return 0;
+        else if (a > b) return cmmdc(a-b,  b);
+        else return cmmdc(a, b-a);
+}
+
+PROBLEMA 4
+
+
+
+
+﻿/*Batinas Claudia gr 2112 - Se consideră recursivitatea (seria de medii arimetico-geometrice a lui Gauss):
+an=(an-1+bn-1)/2 şi
+bn=sqrt(an-1*bn-1), determinaţi an şi bn, pentru n, a0, b0 introduse de la tastatură.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+
+using namespace std;
+
+int det_an(int a0, int n, int b0); //prototip de functie pentru determinarea lui an
+int det_bn(int b0, int n, int a0); //prototip de functie pentru determinarea lui bn
+int main()
+{
+        int a0 = 0, b0 = 0, n;
+        int rez_an = 0, rez_bn = 0;
+        cout << "\nScrieti valoarea lui n: ";
+        cin >> n; //am citit valoarea lui n
+
+        cout << "\nScrieti valoarea lui a0: ";
+        cin >> a0; //am citit valoarea lui a0
+
+        cout << "\nScrieti valoarea lui b0: ";
+        cin >> b0; //am citit valoarea lui b0
+
+        rez_an = det_an(a0, n, b0); 
+        rez_bn = det_bn(b0, n, a0);
+        
+        cout << "\nValoarea lui an este: " << rez_an; //am afisat valoarea lui an
+        cout << "\nValoarea lui bn este: " << rez_bn; //am afisat valoarea lui bn
+        return 0;
+}
+
+int det_an(int a0, int n, int b0) //functie pentru determinarea lui an
+{
+
+        if (n == 0) return 1;
+        else return (a0 * (n - 1) + b0 * (n - 1));
+}
+
+
+int det_bn(int b0, int n, int a0) //functie pentru determinarea lui bn
+{
+
+        if (n == 0) return 1;
+        else return sqrt(a0 * (n - 1) * (b0 * (n - 1)));
+}
+
+
+PROBLEMA 5
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Citiţi un şir de caractere de la tastatură, caracter cu caracter, cu ajutorul unei funcţi bazate pe 
+caracter. Afişaţi şirul în ordine inversă folosind o funcţie recursivă
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+using namespace std;
+
+void reverse(); //prototip de functie care afiseaza sirul in ordine inversa
+
+int main()
+{
+        
+        printf("\nIntroduceti sirul de caractere: ");
+        reverse();
+        return 0;
+}
+
+void reverse() //functie care afiseaza sirul in ordine inversa
+{
+        char c;
+        scanf("%c", &c); //citire caracter cu caracter
+
+        if (c != '\n') //daca nu a ajuns la finalul sirului
+        {
+                reverse();
+                printf("%c", c);
+        }
+}
+
+
+PROBLEMA 6
+
+
+﻿
+/*
+Batinas Claudia gr 2112 - Determinaţi printr-o funcţie recursivă produsul scalar al doi vectori (tablouri unidimensionale
+de aceiasi lungime)
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+using namespace std;
+const int dim = 20;
+int k = 0;
+int ProdElemVector(int* a, int *b,int n); //prototip de functie care calculeaza produsul scalar a doi vectori
+
+
+int main() {
+
+    
+    int a[dim], produs_scalar = 1, b[dim], n = 0;
+
+    printf("Cititi dimensiunea tablourilor ");
+    scanf(" %d", &n); //am citit dimensiunea tabloului
+    for (int i = 0; i < n; i++)
+    {
+        printf("\ta[%d]= ", i);
+        scanf("%d", &a[i]); //am citit elementele primului tablou unidim.
+
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        printf("\tb[%d]= ", i);
+        scanf("%d", &b[i]); //am citit elementele celui de-al doilea tablou unidim.
+
+    }
+
+    produs_scalar = ProdElemVector(a, b, n);
+  
+    printf("\nProdusul scalar al elementelor din cele doua tablouri este: %d", produs_scalar); //am afisat pe ecran produsul elementelor de pe pozitii impare
+    
+    return 0;
+}
+
+int ProdElemVector(int* a, int* b, int n) //functie care calculeaza produsul scalar a doi vectori
+{
+    if (n == 0) return 0;
+    else {
+        k++;
+
+        return ProdElemVector(a, b, n - 1) + (a[n - 1] * b[n - 1]);
+
+    }
+}
+
+
+PROBLEMA 7
+
+
+﻿
+/*Batinas Claudia gr 2112 -S  se calculeze suma numerelor impare dintr - un tablou unidimensional de numere  ntregi  n
+mod recursiv, tablou citit dintr - un fi ier unde, ca prim  valoare, avem num rul de elemente ale
+tabloului.
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+using namespace std;
+const int dim = 20;
+int k = 0;
+int sumaElemImpare(int* a, int n); //prototip de functie care calculeaza suma nr impare
+
+int main() {
+
+    FILE* filep;
+    int a[dim], s, n;
+    char nume_tab[20];
+    filep = fopen("fisier.txt", "a+");
+    if (!filep) {
+        printf( "\n EROARE la deschiderea fisierului...");
+        return 1;
+    }
+ 
+
+
+    printf("Cititi dimensiunea tabloului ");
+    scanf( " %d", &n);
+    a[0] = n; //am atribuit dimensiunea tabloului primei val din tablou 
+    for (int i = 1; i < n; i++)
+    {
+        fscanf(filep, "%d", &a[i]); //am citit elem tabloului din fisierul "fisier.txt"
+        
+        s = sumaElemImpare(a, n);
+        
+    }
+ 
+    
+    fclose(filep);
+    printf("\nSuma nr impare calculata recursiv este: %d",s); //am afisat pe ecran suma numerelor impare
+    return 0;
+}
+
+int sumaElemImpare(int* a, int n) { // functie care calculeaza suma elem impare in mod recursiv
+    if (n == 0) return 0;
+    else if (a[n - 1] % 2 != 0) { k++; return sumaElemImpare(a, n - 1) + a[n - 1]; }
+    else return sumaElemImpare(a, n - 1);
+}
+
+
+PROBLEMA 8
+
+
+
+﻿/*
+Batinas Claudia gr 2112 -  Analog cu problema precedentă, dar se calculează produsul elementelor aflate pe poziţii
+impare într-un tablou unidimensional, respectiv să se calculeze suma numerelor prime din
+tablou
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+using namespace std;
+const int dim = 20;
+int k = 0;
+int ProdElemPozImp(int* a, int n); //prototip de functie care calculeaza produsul nr de pe pozitii impare
+int sumaElemPrime(int* a, int n); //prototip de functie care calculeaza suma nr prime
+
+int main() {
+
+    FILE* filep;
+    int a[dim],produs_el_poz_imp=1,suma_elem_prime=0, n=0;
+    char nume_tab[20];
+    filep = fopen("fisier.txt", "a+");
+    if (!filep) {
+        printf("\n EROARE la deschiderea fisierului...");
+        return 1;
+    }
+
+
+
+    printf("Cititi dimensiunea tabloului ");
+    scanf(" %d", &n);
+    a[0] = n; //am atribuit dimensiunea tabloului primei val din tablou 
+    for (int i = 1; i < n; i++)
+    {
+        fscanf(filep, "%d", &a[i]); //am citit elem tabloului din fisierul "fisier.txt"
+          
+
+    }
+    for (int i = 0; i < n; i++)
+    if(i%2!=0)  produs_el_poz_imp = ProdElemPozImp(a, n);
+    
+    for (int i = 0; i < n; i++)
+        suma_elem_prime = sumaElemPrime(a, n);
+   
+    fclose(filep);
+    printf("\nProdusul elementelor de pe pozitii impare calculata recursiv este: %d", produs_el_poz_imp); //am afisat pe ecran produsul elementelor de pe pozitii impare
+    printf("\nSuma elementelor prime calculata recursiv este: %d", suma_elem_prime); //am afisat pe ecran suma numerelor prime
+    return 0;
+}
+
+int ProdElemPozImp(int* a, int n) //functie care calculeaza produsul elementelor de pe pozitii impare in mod recursiv
+{
+    int i = n;
+    if (n == 0) return 1;
+   
+    else  if((i-1)%2!=0) { k++; return ProdElemPozImp(a, n - 1) * a[n - 1]; }
+    
+    else return ProdElemPozImp(a, n - 1);
+
+}
+
+int prim(int n) //functie care verifica daca numarul este prim
+{
+    if (n == 0 || n == 1) return 0;
+    if (n == 2) return 1;
+    if (n % 2 == 0) return 0;
+    for (int i = 3; i * i <= n; i = i + 2)
+        if (n % i == 0) return 0;
+    return 1;
+
+}
+
+int sumaElemPrime(int* a, int n) { // functie care calculeaza suma elem prime in mod recursiv
+    if (n == 0) return 0;
+    else if (prim(a[n - 1])) { k++; return sumaElemPrime(a, n - 1) + a[n - 1]; }
+    else return sumaElemPrime(a, n - 1);
+}
+
+
+PROBLEMA 9
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Folosind o funcție recursivă, calculați suma valorilor introduse de la tastatură cu confirmare, 
+adică cereți utilizatorului să indice dacă mai dorește să mai introducă o nouă valoare sau nu. 
+Modificați funcția pentru a calcula și afișa, și media valorilor date de utilizator. Semnalați 
+printr-un mesaj când suma valorilor depășește o anumită valoare prestabilită.
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 20
+
+int k = 0;
+int sumaElem(int* a, int n); //prototip de functie care calculeaza suma numerelor citite
+
+int main()
+{
+    int a[DIM];
+    int n=0,s=0;
+    char x[3],rasp[3]="NU";
+    int i=0;
+    printf("\nIntroduceti numar: ");
+    scanf("%d", &n);
+    
+    a[0] = n; //am adaugat in tablou primul element citit
+    i++; //am crescut dimensiunea tabloului
+    bool ok = false;
+    while (ok==false)
+    {
+        printf("\nContinuati? (DA/NU) ");
+        scanf("%s", &x); //am introdus elemente cu confirmare
+        if (strcmp(x, rasp) == 0)
+        {
+            ok = true; //daca s-a introdus de la tastatura "NU" iese din while si ok se modifica
+            break;
+        }
+        else {
+            printf("\nIntroduceti numar: ");
+            scanf("%d", &n); //am citit numerele in caz ca s-a citit "DA" de la tastatura
+            a[i] = n; //am adaugat elementul in tablou
+            i++;
+            s = sumaElem(a, i); //am calculat suma
+            printf("\nSuma este: %d ", s);
+            printf("\nMedia elementelor este: %d ", s/i); //am afisat media elementelor
+        }
+        
+            
+        
+    }
+
+    
+        return 0;
+}
+
+
+int sumaElem(int* a, int i) { // functie care calculeaza suma elementelor in mod recursiv
+    if (i == 0) return 0;
+    else  { k++; return sumaElem(a, i - 1) + a[i - 1]; }
+    
+}
+

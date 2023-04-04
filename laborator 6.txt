@@ -1,0 +1,673 @@
+PROBLEMA 1
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Să se scrie o aplicaţie C++ care implementează o clasă numită PilotF1. Clasa definește
+variabilele private nume (șir de caractere), echipa (șir de caractere), varsta (int), record (int), 
+nr_pole_position (int). Ca membri publici, clasa conține metode accesor/getter și 
+mutator/setter distincte pentru fiecare din atributele clasei.
+In funcția main( ), să se creeze 3 instanțe distincte ale clasei PilotF1 și să se folosească 
+metodele mutator/setter pentru a inițializa datele din fiecare obiect cu informația 
+corespunzătoare citită de la tastatură. Folosind metodele accesor/getter, să se afișeze toate 
+datele pilotului cu cel mai bun record.
+*/
+
+
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string.h>
+using namespace std;
+class pilotF1 {
+        int x;
+private:
+        char nume[20];
+        char echipa[20]; //am definit variabilele private
+        int varsta;
+        int record;
+        int nr_pole_position;
+
+public:
+        void setNume(char* new_nume) {
+                strcpy(nume, new_nume);
+        }
+        void setEchipa(char* new_echipa) { //am definit setteri pt a accesa datele private
+                strcpy(echipa, new_echipa); 
+        }
+        void setVarsta(int a) {
+                varsta = a;
+        }
+        void setRecord(int b) {
+                record = b;
+        }
+        void setNr_pole_position(int c) {
+                nr_pole_position = c;
+        }
+        char* getNume() {
+                return nume;
+        }
+
+        char* getEchipa() {
+                return echipa;
+        }
+
+        int getVarsta() {
+                return varsta; //am definit getteri pentru a returna datele despre obiect
+        }
+
+        int getRecord() {
+                return record;
+        }
+
+        int getNr_pole_position() {
+                return nr_pole_position;
+        }
+
+
+};
+int main() {
+        pilotF1 ob1,ob2,ob3; //instantiere
+        int v1,r1,nr1,v2,r2,nr2,v3,r3,nr3;
+        char n1[20],e1[20],n2[20],e2[20],n3[20],e3[20];
+
+        //am citit si am afisat datele despre primul obiect
+        cout << "\nIntroduceti primul nume: ";
+        cin >> n1;
+        ob1.setNume(n1);
+        cout << "\nPrimul nume este: " << ob1.getNume();
+
+        cout << "\nIntroduceti prima echipa: ";
+        cin >> e1;
+        ob1.setEchipa(e1);
+        cout << "\nPrima echipa este: " << ob1.getEchipa();
+
+        cout << "\nIntroduceti prima varsta: ";
+        cin >> v1;
+        ob1.setVarsta(v1);
+        cout << "\nPrima varsta este: " << ob1.getVarsta();
+
+        cout << "\nIntroduceti primul record: ";
+        cin >> r1;
+        ob1.setRecord(r1);
+        cout << "\nPrimul record este: " << ob1.getRecord();
+        
+        cout << "\nIntroduceti primul nr_pp: ";
+        cin >> nr1;
+        ob1.setNr_pole_position(nr1);
+        cout << "\nPrimul nr_pp este: " << ob1.getNr_pole_position();
+
+
+        // am citit si am afisat datele despre al doilea obiect
+        
+        cout << "\nIntroduceti al doilea nume: ";
+        cin >> n2;
+        ob2.setNume(n2);
+        cout << "\nAl doilea nume este: " << ob2.getNume();
+
+        cout << "\nIntroduceti a doua echipa: ";
+        cin >> e2;
+        ob2.setEchipa(e2);
+        cout << "\nA doua echipa este: " << ob2.getEchipa();
+
+        cout << "\nIntroduceti a doua varsta: ";
+        cin >> v2;
+        ob2.setVarsta(v2);
+        cout << "\nA doua varsta este: " << ob2.getVarsta();
+
+        cout << "\nIntroduceti al doilea record: ";
+        cin >> r2;
+        ob2.setRecord(r2);
+        cout << "\nAl doilea record este: " << ob2.getRecord();
+
+        cout << "\nIntroduceti al doilea nr_pp: ";
+        cin >> nr2;
+        ob2.setNr_pole_position(nr2);
+        cout << "\nAl doilea nr_pp este: " << ob2.getNr_pole_position();
+
+        //am citit si am afisat datele despre al treilea obiect
+
+        cout << "\nIntroduceti al treilea nume: ";
+        cin >> n3;
+        ob3.setNume(n3);
+        cout << "\nAl treilea nume este: " << ob3.getNume();
+
+        cout << "\nIntroduceti a treia echipa: ";
+        cin >> e3;
+        ob3.setEchipa(e3);
+        cout << "\nA treia echipa este: " << ob3.getEchipa();
+
+        cout << "\nIntroduceti a treia varsta: ";
+        cin >> v3;
+        ob3.setVarsta(v3);
+        cout << "\nA treia varsta este: " << ob3.getVarsta();
+
+        cout << "\nIntroduceti al treilea record: ";
+        cin >> r3;
+        ob3.setRecord(r3);
+        cout << "\nAl treilea record este: " << ob3.getRecord();
+
+        cout << "\nIntroduceti al treilea nr_pp: ";
+        cin >> nr3;
+        ob3.setNr_pole_position(nr3);
+        cout << "\nAl treilea nr_pp este: " << ob3.getNr_pole_position();
+        if (ob3.getRecord() > ob2.getRecord() && ob3.getRecord() > ob1.getRecord()) //am afisat datele despre al treilea obiect daca acesta are recordul cel mai mare
+        {
+                cout << "\nA treia echipa are recordul cel m mare";
+                cout << "\nAl treilea nume este: " << ob3.getNume();
+                cout << "\nA treia echipa este: " << ob3.getEchipa();
+                cout << "\nA treia varsta este: " << ob3.getVarsta();
+                cout << "\nAl treilea record este: " << ob3.getRecord();
+                cout << "\nAl treilea nr_pp este: " << ob3.getNr_pole_position();
+        }
+        else if (ob2.getRecord() > ob3.getRecord() && ob2.getRecord() > ob1.getRecord()) //am afisat datele despre al doilea obiect daca acesta are recordul cel mai mare
+        {
+                cout << "\nA doua echipa are recordul cel m mare";
+                cout << "\nAl doilea nume este: " << ob2.getNume();
+                cout << "\nA doua echipa este: " << ob2.getEchipa();
+                cout << "\nA doua varsta este: " << ob2.getVarsta();
+                cout << "\nAl doilea record este: " << ob2.getRecord();
+                cout << "\nAl doilea nr_pp este: " << ob2.getNr_pole_position();
+
+        }
+        else //am afisat datele despre primul obiect daca acesta are recordul cel mai mare
+        {
+                cout << "\nPrima echipa are recordul cel m mare";
+                cout << "\nPrimul nume este: " << ob1.getNume();
+                cout << "\nPrima echipa este: " << ob1.getEchipa();
+                cout << "\nPrima varsta este: " << ob1.getVarsta();
+                cout << "\nPrimul record este: " << ob1.getRecord();
+                cout << "\nPrimul nr_pp este: " << ob1.getNr_pole_position();
+
+        }
+        
+}
+
+
+PROBLEMA 2
+
+
+
+﻿/*
+Batinas Claudia gr 2112 - Să se modifice exemplul 2 astfel încât codul să poată fi lansat în execuție considerand 
+atributul clasei private si metode public get/set adecvate. In main() instantiati un obiect din 
+clasa care va fi modificat si apoi accesat, afisand rezultatul.
+*/
+
+
+
+#include <iostream>
+using namespace std;
+
+class Test2 {
+        int x;
+public:
+   
+    void setNumber(int a) { //am definit seteri pentru a accesa datele despre obiect
+        x = a;
+    }
+    
+    int getNumber() {
+        return x; //am definit getteri pentru a returna datele despre obiect
+    }
+
+};
+int main() {
+        Test2 ob1; 
+        int a,val_de_modif;
+        cout << "\nIntroduceti valoarea numarului: ";
+        cin >> a; //am citit valoarea nr
+        
+        ob1.setNumber(a);
+        cout << "\nObiectul citit este: " << ob1.getNumber(); //am afisat obiectul citit
+        cout << "\nScrieti valoarea de modificat: ";
+        cin >> val_de_modif; //am citit valoarea de modificat
+        ob1.setNumber(val_de_modif);
+        cout << "\nObiectul modificat este: " << ob1.getNumber(); //am afisat noul obiect
+        return 0;
+}
+
+
+PROBLEMA 3
+
+
+
+
+/* Batinas Claudia gr 2112 - 
+Pornind de la exemplul care tratează lucrul cu matrice, considerati ca si atribute private
+matricea data printr-un pointer dublu pentru a aloca un tablou de pointeri catre liniile matricii
+(sau, pointer simplu la alocarea dinamica contigua a matricii), si doua atribute private de tip
+int pentru numarul de linii si coloane. Constructorul cu doi parametrii va aloca dinamic spatiu
+pentru matrice initializand elementele cu 0. Implementati un destructor explicit pentru a
+elibera spatiul alocat. Definiti o metoda publica void setElement(int l, int c, int v) care va seta
+un element cu valoarea v, de pe linia l si coloana c. Declarati o functie globala void
+readMatrix(Matrix m) care va avea ca si parametru o matrice instantiata la care se va valida in
+main() ca dimensiunile sa fie corecte, >=1 si <=10, si care va citi elementele matricii de la
+tastatura (va folosi si metoda publica setElement()). Metoda din clasa, displayMatrix() va fi
+definita ca si o functie globala la fel ca si readMatrix() considerand metoda getElement() ca si
+metoda public.
+Metoda de afisare a unei coloane, nu va valida numarul coloanei, coloana fiind validata in
+main(). Completați codul scris cu metode specifice pentru:
+- afișarea elementelor de pe diagonala secundara a matricei, dacă matricea este pătratică; în
+caz contrar se afișează un mesaj corespunzător;
+- afișarea elementelor de sub diagonala principala;
+- afișarea unei matrice de dimensiunea celei inițiale ale cărei elemente pot avea valori de 0
+(dacă elementul corespunzător este mai mic decât o valoare in prealabil citita de prag) sau
+1 (în caz contrar), si verifica daca matricea este rara, >= 67% din elemente sunt zero);
+Refaceti aplicatia in care considerati metodele getElement() si setElement() private iar functile
+readMatrix() si displayMatrix() metode membere publice in cadrul clasei.*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+using namespace std;
+
+class Matrix
+{
+    int matrice[50][50];
+    int n, m;
+
+public:
+
+    Matrix()
+    {
+        int i, j;
+        cout << "Introduceti numarul de linii ale matricii:";
+        cin >> n;                                             //am citit dimensiunile matricii
+
+        cout << "Introduceti numarul de coloane ale matricii:";
+        cin >> m;
+
+        cout << "Introduceti elementele matricii:" << endl;
+        for (i = 0; i < n; i++)
+        {
+            for (j = 0; j < m; j++)
+            cin >> matrice[i][j];        //am citit elementele matricii
+            
+        }
+    }
+
+    void afis_Matrice()
+    {
+        int i, j;
+
+        cout << "Elementele matricii sunt: "<<endl;
+        for (i = 0; i < n; i++)
+        {
+            cout << endl;
+            for (j = 0; j < m; j++) {
+                cout << matrice[i][j] << "   "; //am afisat elementele matricii
+            }
+        }
+        cout << endl;
+
+    }
+   
+    void setElement(int v);
+
+    void diag_Sec();
+
+    void Sub_Diag_Princ();
+
+    void Val_prag_Matrice(int n);
+
+    int getElement(int l, int c);
+
+    ~Matrix(); //destructor
+
+};
+
+
+void Matrix::setElement(int v)
+{
+    bool ok = false;
+    int lin = 0, col = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+            if (matrice[i][j] == v)
+            {
+                ok = true;
+                lin = i;
+                col = j;
+            }
+    }
+        if (ok == true) cout << "elementul " << v << " s-a gasit pe linia " << lin << " si coloana " << col << endl;
+        else cout << "\nelementul " << v << " nu s-a gasit in matrice!";
+    
+
+}
+void Matrix::Val_prag_Matrice(int val)
+{
+   
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (matrice[i][j] < val)
+                matrice[i][j] = 0;
+            else
+                matrice[i][j] = 1;
+        }
+    }
+  
+    afis_Matrice();
+    int cnt = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+            if (matrice[i][j] > 0) cnt++;
+    }
+    if (cnt >= (67 * n) / 100) cout << "Matricea este rara" << endl;
+    else cout << "Matricea nu este rara" << endl;
+}
+
+int Matrix::getElement(int row, int column) {
+    return matrice[row][column];
+}
+
+void Matrix::Sub_Diag_Princ()
+{
+  
+    if (n == m)
+    {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                if (i > j)
+                    cout << getElement(i, j) << " ";
+    }
+    else cout << "Numarul de linii este diferit fata de cel de coloane" << endl;
+
+}
+
+void Matrix::diag_Sec()
+{
+   
+    if (n == m)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+                if (i + j == n - 1)
+                    cout << getElement(i, j) << " ";
+        }
+    }
+    else
+        cout << "\nNumarul de linii este diferit fata de cel de coloane";
+}
+
+Matrix::~Matrix() {
+    std::cout << "Destructor" << std::endl;
+
+    for (int i = 0; i < n; i++)
+        delete[] matrice[i];
+
+    delete[] matrice;
+};
+
+int main()
+{
+    int n=0, m=0;
+    Matrix matr;
+    matr.afis_Matrice();
+    int v;
+    cin >> v;
+
+    matr.setElement(v);
+
+    cout << "\nElementele de pe diagonala secundara sunt: ";
+    matr.diag_Sec();
+
+    cout << "\nElementele de sub diagonala principala sunt: ";
+    matr.Sub_Diag_Princ();
+
+    int val_prag;
+    cout << "\nIntroduceti valoarea limita: ";
+
+    cin >> val_prag;
+    matr.Val_prag_Matrice(val_prag);
+
+    return 0;
+}
+
+
+PROBLEMA 5
+
+
+
+
+#include <iostream>
+using namespace std;
+#include "Scerc.h"
+#include "Cerc.h"
+
+class Test2 {
+        int x;
+public:
+
+        void setNumber(int a) { //am definit seteri pentru a accesa datele despre obiect
+                x = a;
+        }
+
+        int getNumber() {
+                return x; //am definit getteri pentru a returna datele despre obiect
+        }
+};
+
+
+int main()
+{ //problema 1
+        int r;
+        cout << "\nStructuri\n";
+        Scerc c1, c2;
+
+        cout << "\nIntrodu raza c1: ";
+        cin >> c1.raza;
+        cout << "\nAria c1= " << ar_str(c1);
+        cout << "\nPerimetru c1= " << per_str(c1);
+
+        cout << "\nIntrodu raza c2: ";
+        cin >> c2.raza;
+        cout << "\nAria c1= " << ar_str(c2);
+        cout << "\nPerimetru c1= " << per_str(c2);
+
+        cout << "\n Clasa \n";
+
+        Cerc cc1(2), cc2(3);
+        r = cc1.getRaza();
+        cout << "\n Raza cc1= " << r;
+        cout << "\n Aria cc1: " << cc1.calcA();
+        cout << "\n Perim cc1: " << cc1.calcP();
+
+        r = cc2.getRaza();
+        cout << "\n Raza cc2=" << r;
+        cout << "\n Aria cc2: " << cc2.calcA();
+        cout << "\n Perim cc2: " << cc2.calcP();
+
+        Cerc* cptr;
+        cptr = &cc1;
+        cout << "\n Aria cc1 cu pointer: " << cptr->calcA();
+        Cerc* cptr2;
+        cptr2= &cc2;
+        cout << "\n Perim cc2 cu pointer: " << cptr2->calcP();
+
+
+
+        Cerc& ref = cc1;
+        cout << "\n Aria cc1 cu referinta: " << ref.calcA();
+        Cerc& ref_cc2 = cc2;
+        cout << "\n Perim cc2 cu referinta: " << ref_cc2.calcP();
+
+        //modificare problema 2
+
+        Test2 ob1;
+        int a, val_de_modif;
+        cout << "\nIntroduceti valoarea numarului: ";
+        cin >> a; //am citit valoarea nr
+
+        ob1.setNumber(a);
+        cout << "\nObiectul citit este: " << ob1.getNumber(); //am afisat obiectul citit
+        cout << "\nScrieti valoarea de modificat: ";
+        cin >> val_de_modif; //am citit valoarea de modificat
+        ob1.setNumber(val_de_modif);
+        cout << "\nObiectul modificat este: " << ob1.getNumber(); //am afisat noul obiect
+
+         //modificare pb 2 cu pointer
+        Test2* ptr_ob1;
+        ptr_ob1 = &ob1;
+        ptr_ob1->setNumber(a);
+        cout << "\nObiectul citit cu ajutorul pointerului este: " << ptr_ob1->getNumber(); //am afisat obiectul citit
+        cout << "\nScrieti valoarea de modificat: ";
+        cin >> val_de_modif; //am citit valoarea de modificat
+        ptr_ob1->setNumber(val_de_modif);
+        cout << "\nObiectul modificat cu ajutorul pointerului este: " << ptr_ob1->getNumber(); //am afisat noul obiect
+
+
+        //modificare pb 2 cu referinta
+        Test2 &ref_ob1=ob1;
+        
+        ref_ob1.setNumber(a);
+        cout << "\nObiectul citit cu ajutorul referintei este: " << ref_ob1.getNumber(); //am afisat obiectul citit
+        cout << "\nScrieti valoarea de modificat: ";
+        cin >> val_de_modif; //am citit valoarea de modificat
+        ref_ob1.setNumber(val_de_modif);
+        cout << "\nObiectul modificat cu ajutorul referintei este: " << ref_ob1.getNumber(); //am afisat noul obiect
+
+        return 0;
+}
+
+PROBLEMA 4
+
+
+
+
+/*Batinas Claudia gr 2112 - Să se scrie o clasă care are ca variabilă privată un câmp de tip data, definit într-o structură
+externă clasei (zi  " int, luna  " int, an - int). Clasa conține metode mutator/setter și
+accesor/getter (publice) pentru informația privată, ca si structura de tip data, pentru fiecare
+camp din structura. In clasă se mai află doua metode publice care:
+- testează validitatea datei stocate;
+- scrie într-un fișier toate datele din anul curent care preced (cronologic) data stocată în
+clasă considerand doar atributul an ca fiind variabil;
+In functia main( ), după instanțierea clasei și citirea de la tastatură a componentelor unei date,
+să se apeleze metodele membre și apoi să se verifice rezultatele obținute. */
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <stdio.h>
+
+using namespace std;
+
+struct Date_calend {
+
+    int zi;
+    int luna;
+    int an;
+
+};
+class CDate
+{
+
+private: struct Date_calend x; //am declarat privata structura
+
+public:
+
+    void validare(struct Date_calend x);
+    void Date_fis(struct Date_calend x); //am declarat public functiile
+
+    void setX(struct Date_calend y) //functia setter pentru datele calendaristice
+    {
+        x.zi = y.zi;
+        x.luna = y.luna;
+        x.an = y.an;
+    }
+
+    int getXzi()
+    {
+        return x.zi; //am returnat ziua
+    }
+
+    int getXluna()
+    {
+        return x.luna; //am returnat luna
+    }
+
+    int getXan()
+    {
+        return x.an; //am returnat anul
+    }
+};
+void CDate::validare(struct Date_calend x) //functie pentru validare
+{
+    int cont = 0;
+    if ((x.zi < 0) || (x.zi) > 31) {
+        cont = 0; 
+    }
+    else cont++;
+    if ((x.luna < 1) || (x.zi) > 12) {
+        cont = 0;
+    }
+    else cont++;
+    if (x.an < 0)
+    {
+        cont = 0;
+    }
+    else cont++;
+    cout << "Validare: " << endl;
+
+    if (cont == 0)
+    {
+        cout << "\nValidarea nu a avut loc cu succes!";
+    }
+    else
+        cout << "\nValidarea a avut loc cu succes!!";
+}
+void CDate::Date_fis(struct Date_calend x)
+{
+    FILE* filep;
+    int i, j, CntZile=0;
+     
+    filep = fopen("fisiernr4.txt", "w + ");
+    if (filep == NULL)
+    {
+        printf("\nEroare! Va rugam sa mai incercati!");
+        exit(1);
+    }
+    for (i = 1; i < x.luna; i++)
+    {
+        if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12) CntZile = 31;
+        else
+            if (i == 4 || i == 6 || i == 9 || i == 11) CntZile = 30;
+            else
+                if (i == 2)
+                    if (x.an % 4 == 0) CntZile = 29; //am contorizat numarul de zile
+                    else CntZile = 28;
+    }
+
+    for (j = 1; j <= x.zi; j++)
+    {
+        fprintf(filep, "\n%2d.%2d.%4d\t", j, x.luna, x.an);
+        printf("\n%2d.%2d.%4d\t", j, x.luna, x.an); //am afisat datele care preced data stocata in clasa
+    }
+    fclose(filep); //am inchis fisierul
+
+}
+int main()
+{
+    CDate obiect;
+    struct Date_calend y;
+
+
+    cout << "\nIntroduceti ziua: ";
+    cin >> y.zi; //am citit ziua
+
+    cout << "\mIntroduceti luna: ";
+    cin >> y.luna; //am citit luna
+
+    cout << "\nIntroduceti anul: ";
+    cin >> y.an;//am citit anul
+
+    obiect.setX(y);
+    obiect.validare(y);
+    cout << "\nDatele care preced data stocata in clasa din anul curent : ";
+    obiect.Date_fis(y);
+
+    return 0;
+}
